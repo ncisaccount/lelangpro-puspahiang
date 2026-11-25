@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Memuat Konfigurasi URL Server GAS -->
+  <script src="./config.js"></script>
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f4f7f9; color: #0f172a; }
     .hero-gradient {
@@ -39,16 +41,12 @@
         </span>
       </div>
       <div class="flex items-center gap-4">
-        <a href="tel:+6282134567890" class="hidden md:inline-flex items-center gap-1.5 hover:text-white transition">
-          <i class="fa-solid fa-phone text-amber-400"></i> +62 821-3456-7890
-        </a>
-        <a href="mailto:pemdespsp@gmail.com" class="hidden lg:inline-flex items-center gap-1.5 hover:text-white transition">
-          <i class="fa-solid fa-envelope text-amber-400"></i> pemdespsp@gmail.com
-        </a>
-        <!-- TOMBOL PORTAL LOGIN PANITIA -->
+        <span id="topDbStatusBadge" class="hidden md:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+          <i class="fa-solid fa-database text-amber-400"></i> Memeriksa Database...
+        </span>
         <button id="btnOpenPanitiaModal" type="button" onclick="bukaModalLoginPanitia()"
           class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800/90 hover:bg-amber-500 hover:text-slate-950 text-slate-200 border border-slate-700 font-semibold transition cursor-pointer">
-          <i class="fa-solid fa-lock text-amber-400 group-hover:text-slate-950"></i>
+          <i class="fa-solid fa-lock text-amber-400"></i>
           <span id="navPanitiaLabel">Portal Panitia / Login</span>
         </button>
       </div>
@@ -57,7 +55,7 @@
 
   <!-- MAIN NAVBAR -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200/80 shadow-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-3 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
       <a href="#beranda" onclick="tampilkanTampilanPublik()" class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-[#092635] flex items-center justify-center text-emerald-400 shadow-sm">
           <i class="fa-solid fa-leaf text-lg"></i>
@@ -68,7 +66,7 @@
         </div>
       </a>
 
-      <nav id="publicNavLinks" class="hidden md:flex items-center gap-1 text-sm font-semibold text-slate-600">
+      <nav class="hidden md:flex items-center gap-1 text-sm font-semibold text-slate-600">
         <a href="#beranda" onclick="tampilkanTampilanPublik()" class="px-3.5 py-2 rounded-full bg-slate-100 text-slate-900">Beranda</a>
         <a href="#blok-kebun" onclick="tampilkanTampilanPublik()" class="px-3.5 py-2 rounded-full hover:bg-slate-100 transition">Blok Kebun</a>
         <a href="#katalog-lot" onclick="tampilkanTampilanPublik()" class="px-3.5 py-2 rounded-full hover:bg-slate-100 transition">Katalog Lot</a>
@@ -121,7 +119,7 @@
         <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs sm:text-sm text-emerald-300 font-medium">
           <span><i class="fa-solid fa-check mr-1.5"></i>100% Hak Kelola Sah</span>
           <span><i class="fa-solid fa-check mr-1.5"></i>Tanpa Wajib Bukti Transfer di Muka</span>
-          <span><i class="fa-solid fa-check mr-1.5"></i>Nilai Limit Objektif</span>
+          <span><i class="fa-solid fa-check mr-1.5"></i>Terintegrasi Database Spreadsheet</span>
         </div>
       </div>
     </section>
@@ -193,10 +191,7 @@
           Pemetaan klaster kebun manggis berdasarkan elevasi, topografi lereng, dan indeks produktivitas getah kuning terendah.
         </p>
       </div>
-
-      <div id="blokSummaryGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Diisi otomatis via JS -->
-      </div>
+      <div id="blokSummaryGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
     </section>
 
     <!-- KATALOG LOT LELANG -->
@@ -207,14 +202,14 @@
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Katalog Lot Kebun Manggis</h2>
         </div>
         <button type="button" onclick="muatDataPublik()" class="text-xs font-bold px-3.5 py-2 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 cursor-pointer">
-          <i class="fa-solid fa-rotate mr-1"></i> Muat Ulang Data
+          <i class="fa-solid fa-rotate mr-1"></i> Sinkronkan Spreadsheet
         </button>
       </div>
 
       <div id="lotCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="col-span-full text-center py-12 text-slate-500">
           <i class="fa-solid fa-circle-notch fa-spin text-2xl text-teal-700 mb-2"></i>
-          <p class="text-sm font-medium">Memuat katalog lot lelang kebun manggis...</p>
+          <p class="text-sm font-medium">Menghubungkan ke database Google Spreadsheet...</p>
         </div>
       </div>
     </section>
@@ -257,7 +252,7 @@
         <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-1">Cek Status Penawaran Anda</h2>
         <p class="text-sm text-slate-600 mb-5">Masukkan 16 digit NIK atau Kode Registrasi Penawaran (<code class="text-teal-700 font-semibold">BID-...</code>) untuk memantau hasil verifikasi panitia.</p>
         <div class="flex flex-col sm:flex-row gap-3">
-          <input id="inputCekStatus" type="text" placeholder="Contoh: BID-261125... atau 3206xxxxxxxxxxxx"
+          <input id="inputCekStatus" type="text" placeholder="Contoh: BID-261126... atau 3206xxxxxxxxxxxx"
             class="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600" />
           <button type="button" onclick="prosesCekStatus()"
             class="bg-[#092635] hover:bg-[#113d54] text-white font-bold text-sm px-6 py-3 rounded-xl transition cursor-pointer">
@@ -275,20 +270,29 @@
   <section id="adminDashboardView" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <div class="bg-[#092635] text-white rounded-2xl p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg">
       <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase mb-2">
-          <i class="fa-solid fa-shield-halved"></i> <span id="dashRoleBadge">PANITIA VERIFIKATOR</span>
+        <div class="flex flex-wrap items-center gap-2 mb-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase">
+            <i class="fa-solid fa-shield-halved"></i> <span id="dashRoleBadge">PANITIA VERIFIKATOR</span>
+          </span>
+          <span id="dashSpreadsheetBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 text-xs font-semibold">
+            <i class="fa-solid fa-table"></i> Database Spreadsheet Aktif
+          </span>
         </div>
         <h1 class="text-2xl font-extrabold" id="dashWelcomeTitle">Dashboard Tim Pelaksana Lelang</h1>
-        <p class="text-xs text-slate-300 mt-1">Kelola verifikasi penawaran masuk, pembaruan lot kebun manggis, dan penetapan pemenang lelang.</p>
+        <p class="text-xs text-slate-300 mt-1">Seluruh perubahan data otomatis tersinkronisasi ke Google Sheets secara real-time.</p>
       </div>
       <div class="flex flex-wrap items-center gap-2.5">
+        <a id="btnBukaSpreadsheet" href="#" target="_blank" rel="noopener noreferrer"
+          class="hidden px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold transition">
+          <i class="fa-solid fa-file-excel mr-1"></i> Buka Google Sheets
+        </a>
         <button type="button" onclick="tampilkanTampilanPublik()"
           class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition cursor-pointer">
-          <i class="fa-solid fa-globe mr-1"></i> Lihat Halaman Publik
+          <i class="fa-solid fa-globe mr-1"></i> Halaman Publik
         </button>
         <button type="button" onclick="muatDashboardAdmin()"
           class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition cursor-pointer">
-          <i class="fa-solid fa-rotate mr-1"></i> Refresh Data
+          <i class="fa-solid fa-rotate mr-1"></i> Refresh
         </button>
         <button type="button" onclick="logoutPanitia()"
           class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition cursor-pointer">
@@ -408,7 +412,7 @@
           </div>
           <button type="submit" id="btnSimpanLot"
             class="w-full py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold cursor-pointer">
-            Simpan Data Lot
+            Simpan ke Spreadsheet
           </button>
         </form>
       </div>
@@ -458,7 +462,7 @@
           </div>
           <button type="submit" id="btnTambahPanitia"
             class="w-full py-2.5 rounded-xl bg-[#092635] hover:bg-[#14435c] text-white font-bold cursor-pointer">
-            Buat Akun Panitia
+            Simpan Akun Panitia
           </button>
         </form>
       </div>
@@ -491,11 +495,11 @@
   </footer>
 
   <!-- ====================================================================== -->
-  <!-- MODAL 1: PORTAL LOGIN PANITIA & PEJABAT LELANG (DIPERBAIKI LENGKAP)    -->
+  <!-- MODAL 1: PORTAL LOGIN PANITIA + PENGATURAN KONEKSI SERVER GAS          -->
   <!-- ====================================================================== -->
   <div id="modalLoginPanitia" class="hidden fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4"
     onclick="if(event.target === this) tutupModalLoginPanitia()">
-    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 overflow-hidden animate-fadeIn">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
       <!-- Header Modal -->
       <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
         <div class="flex items-center gap-2.5">
@@ -504,17 +508,51 @@
           </span>
           <h3 class="font-extrabold text-base text-slate-900">Portal Internal Panitia & Pejabat Lelang</h3>
         </div>
-        <button type="button" onclick="tutupModalLoginPanitia()"
-          class="w-8 h-8 rounded-full hover:bg-slate-200 text-slate-500 flex items-center justify-center transition cursor-pointer">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
+        <div class="flex items-center gap-1">
+          <button type="button" onclick="togglePanelPengaturanGas()" title="Atur URL Server GAS"
+            class="w-8 h-8 rounded-full hover:bg-slate-200 text-slate-500 flex items-center justify-center transition cursor-pointer">
+            <i class="fa-solid fa-gear"></i>
+          </button>
+          <button type="button" onclick="tutupModalLoginPanitia()"
+            class="w-8 h-8 rounded-full hover:bg-slate-200 text-slate-500 flex items-center justify-center transition cursor-pointer">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
       </div>
 
-      <!-- Body Form Login Username & Password -->
+      <!-- Body Modal -->
       <div class="p-6">
-        <p class="text-xs text-slate-600 leading-relaxed mb-5">
+        <p class="text-xs text-slate-600 leading-relaxed mb-4">
           Masuk menggunakan akun resmi <strong>Panitia Verifikator</strong> atau <strong>Superadmin</strong> yang telah didaftarkan pada sistem Tim Pelaksana Lelang Puspahiang.
         </p>
+
+        <!-- Indikator Status Koneksi GAS & Spreadsheet -->
+        <div id="modalServerStatusBar" class="mb-4 px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-between text-[11px]">
+          <span id="modalServerStatusText" class="font-semibold text-slate-600">
+            <i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Mengecek koneksi server GAS...
+          </span>
+          <button type="button" onclick="togglePanelPengaturanGas()" class="text-teal-700 font-bold underline cursor-pointer">
+            Atur URL GAS
+          </button>
+        </div>
+
+        <!-- Panel Pengaturan Endpoint GAS (Otomatis muncul jika GAS_URL kosong) -->
+        <div id="panelPengaturanGas" class="hidden mb-4 p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs space-y-2.5">
+          <div class="font-extrabold text-amber-900 flex items-center gap-1.5">
+            <i class="fa-solid fa-plug"></i> Hubungkan URL Web App Google Apps Script
+          </div>
+          <p class="text-[11px] text-amber-800 leading-relaxed">
+            Tempel URL Deployment Web App GAS Anda (berakhiran <code>/exec</code>) di bawah ini agar aplikasi terhubung ke Google Spreadsheet:
+          </p>
+          <input id="inputGasUrlManual" type="url" placeholder="https://script.google.com/macros/s/AKfycb.../exec"
+            class="w-full rounded-lg border border-amber-300 bg-white px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-amber-500" />
+          <div class="flex items-center justify-end gap-2">
+            <button type="button" onclick="simpanDanUjiGasUrl()"
+              class="px-3.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs cursor-pointer">
+              Simpan & Uji Koneksi
+            </button>
+          </div>
+        </div>
 
         <div id="loginAlertBox" class="hidden mb-4 p-3 rounded-xl text-xs font-semibold"></div>
 
@@ -553,12 +591,6 @@
             <span>Masuk ke Portal Panitia</span>
           </button>
         </form>
-
-        <!-- Wadah Opsional Google Sign-In jika GOOGLE_CLIENT_ID tersedia -->
-        <div id="googleLoginDivider" class="hidden mt-5 pt-4 border-t border-slate-200 text-center">
-          <p class="text-[11px] text-slate-400 mb-2">Atau gunakan autentikasi Google Workspace Desa:</p>
-          <div id="googleSignInContainer" class="flex justify-center"></div>
-        </div>
       </div>
     </div>
   </div>
@@ -638,21 +670,33 @@
   </div>
 
   <!-- ====================================================================== -->
-  <!-- SCRIPT UTAMA APLIKASI (DUAL-MODE GAS & EXTERNAL FETCH)                 -->
+  <!-- SCRIPT UTAMA APLIKASI (INTEGRASI REST API GAS & SPREADSHEET)          -->
   <!-- ====================================================================== -->
   <script>
-    // Isi GAS_URL jika file ini di-host di luar Apps Script (mis. GitHub Pages).
-    // Jika dijalankan langsung dari URL Web App Google Apps Script, biarkan kosong ('').
-    const GAS_URL = '';
-
     const TOKEN_STORAGE_KEY = 'lelangpro_puspahiang_token';
+    const GAS_URL_STORAGE_KEY = 'lelangpro_puspahiang_gas_url';
+
+    function ambilGasUrlAktif() {
+      const dariLocal = (localStorage.getItem(GAS_URL_STORAGE_KEY) || '').trim();
+      if (dariLocal && dariLocal.startsWith('https://script.google.com/')) return dariLocal;
+
+      const dariConfig = (window.LELANGPRO_CONFIG && window.LELANGPRO_CONFIG.GAS_URL)
+        ? String(window.LELANGPRO_CONFIG.GAS_URL).trim()
+        : '';
+      if (dariConfig && dariConfig.startsWith('https://script.google.com/') && !dariConfig.includes('GANTI_DENGAN_ID')) {
+        return dariConfig;
+      }
+      return '';
+    }
+
     let STATE = {
       lots: [],
       user: null,
-      token: localStorage.getItem(TOKEN_STORAGE_KEY) || ''
+      token: localStorage.getItem(TOKEN_STORAGE_KEY) || '',
+      gasUrl: ambilGasUrlAktif()
     };
 
-    // Transport adapter otomatis (google.script.run atau fetch POST)
+    // Transport adapter: otomatis mendukung google.script.run (internal) maupun fetch POST (GitHub Pages)
     function panggilBackend(action, payload = {}, token = '') {
       return new Promise((resolve, reject) => {
         if (typeof google !== 'undefined' && google.script && google.script.run) {
@@ -660,18 +704,31 @@
             .withSuccessHandler(res => resolve(res))
             .withFailureHandler(err => reject(err))
             .apiCall(action, payload, token);
-        } else if (GAS_URL) {
-          fetch(GAS_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ action, payload, token })
-          })
-            .then(r => r.json())
-            .then(resolve)
-            .catch(reject);
-        } else {
-          reject(new Error('Koneksi backend GAS belum terhubung.'));
+          return;
         }
+
+        const endpoint = ambilGasUrlAktif();
+        if (!endpoint) {
+          reject(new Error('URL Server GAS belum dikonfigurasi. Klik "Atur URL GAS" di atas untuk menempelkan link /exec Web App Anda.'));
+          return;
+        }
+
+        fetch(endpoint, {
+          method: 'POST',
+          redirect: 'follow',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action, payload, token })
+        })
+          .then(async response => {
+            const text = await response.text();
+            try {
+              return JSON.parse(text);
+            } catch (parseErr) {
+              throw new Error('Respons server bukan JSON valid. Pastikan Web App GAS di-deploy dengan akses "Anyone" (Siapa saja).');
+            }
+          })
+          .then(resolve)
+          .catch(err => reject(new Error('Koneksi jaringan/CORS ke GAS gagal: ' + err.message)));
       });
     }
 
@@ -681,7 +738,9 @@
 
     // Inisialisasi saat halaman dimuat
     document.addEventListener('DOMContentLoaded', async () => {
+      await ujiKoneksiDatabase();
       await muatDataPublik();
+
       if (STATE.token) {
         try {
           const cek = await panggilBackend('verifySession', {}, STATE.token);
@@ -696,6 +755,79 @@
       }
     });
 
+    async function ujiKoneksiDatabase() {
+      const topBadge = document.getElementById('topDbStatusBadge');
+      const modalText = document.getElementById('modalServerStatusText');
+      const panelConfig = document.getElementById('panelPengaturanGas');
+      const inputManual = document.getElementById('inputGasUrlManual');
+
+      const urlAktif = ambilGasUrlAktif();
+      if (inputManual && urlAktif) inputManual.value = urlAktif;
+
+      if (typeof google === 'undefined' && !urlAktif) {
+        topBadge.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-amber-400"></i> Server GAS Belum Diatur';
+        modalText.innerHTML = '<span class="text-amber-700"><i class="fa-solid fa-triangle-exclamation mr-1"></i> URL Web App GAS belum diisi</span>';
+        panelConfig.classList.remove('hidden');
+        return false;
+      }
+
+      try {
+        const res = await panggilBackend('pingDb');
+        if (res && res.ok) {
+          topBadge.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> DB: ${res.spreadsheetName}`;
+          modalText.innerHTML = `<span class="text-emerald-700"><i class="fa-solid fa-circle-check mr-1"></i> Terhubung: ${res.spreadsheetName} (${res.totalLot} Lot)</span>`;
+          panelConfig.classList.add('hidden');
+          return true;
+        } else {
+          const msg = (res && res.message) || 'Spreadsheet belum diinisialisasi';
+          topBadge.innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-400"></i> DB Belum Siap';
+          modalText.innerHTML = `<span class="text-rose-700"><i class="fa-solid fa-circle-xmark mr-1"></i> ${msg}</span>`;
+          return false;
+        }
+      } catch (err) {
+        topBadge.innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-400"></i> Koneksi Terputus';
+        modalText.innerHTML = `<span class="text-rose-700"><i class="fa-solid fa-circle-xmark mr-1"></i> Gagal terhubung ke endpoint GAS</span>`;
+        panelConfig.classList.remove('hidden');
+        return false;
+      }
+    }
+
+    function togglePanelPengaturanGas() {
+      const panel = document.getElementById('panelPengaturanGas');
+      const inputManual = document.getElementById('inputGasUrlManual');
+      const urlAktif = ambilGasUrlAktif();
+      if (urlAktif) inputManual.value = urlAktif;
+      panel.classList.toggle('hidden');
+    }
+
+    async function simpanDanUjiGasUrl() {
+      const val = document.getElementById('inputGasUrlManual').value.trim();
+      const alertBox = document.getElementById('loginAlertBox');
+
+      if (!val || !val.startsWith('https://script.google.com/macros/s/') || !val.endsWith('/exec')) {
+        alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200';
+        alertBox.textContent = 'Format URL tidak valid. Pastikan URL diawali "https://script.google.com/macros/s/" dan diakhiri "/exec".';
+        alertBox.classList.remove('hidden');
+        return;
+      }
+
+      localStorage.setItem(GAS_URL_STORAGE_KEY, val);
+      STATE.gasUrl = val;
+      alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-semibold bg-sky-50 text-sky-800 border border-sky-200';
+      alertBox.textContent = 'Menguji koneksi ke Google Apps Script & Spreadsheet...';
+      alertBox.classList.remove('hidden');
+
+      const sukses = await ujiKoneksiDatabase();
+      if (sukses) {
+        alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200';
+        alertBox.textContent = 'Berhasil terhubung ke Google Spreadsheet! Silakan lanjutkan login.';
+        await muatDataPublik();
+      } else {
+        alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200';
+        alertBox.textContent = 'URL tersimpan, namun server GAS gagal merespons. Pastikan deployment GAS diatur ke "Anyone" (Siapa saja).';
+      }
+    }
+
     // ========================================================================
     // KONTROL MODAL PORTAL LOGIN PANITIA
     // ========================================================================
@@ -708,6 +840,7 @@
       const alertBox = document.getElementById('loginAlertBox');
       alertBox.classList.add('hidden');
       modal.classList.remove('hidden');
+      ujiKoneksiDatabase();
       setTimeout(() => {
         const inputUser = document.getElementById('loginUsername');
         if (inputUser) inputUser.focus();
@@ -767,6 +900,7 @@
         alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200';
         alertBox.textContent = 'Gagal terhubung ke server: ' + err.message;
         alertBox.classList.remove('hidden');
+        document.getElementById('panelPengaturanGas').classList.remove('hidden');
       } finally {
         btn.disabled = false;
         btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> <span>Masuk ke Portal Panitia</span>';
@@ -807,8 +941,12 @@
         }
       } catch (err) {
         document.getElementById('lotCardsGrid').innerHTML =
-          `<div class="col-span-full bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-xl text-xs font-semibold">
-            Catatan: Jalankan fungsi <code>setupAplikasiLelangPro()</code> 1 kali di Editor Google Apps Script untuk menginisialisasi database. (${err.message})
+          `<div class="col-span-full bg-amber-50 border border-amber-200 text-amber-900 p-5 rounded-2xl text-xs space-y-2">
+            <div class="font-extrabold text-sm"><i class="fa-solid fa-plug-circle-exclamation mr-1.5"></i> Koneksi Backend GAS Belum Terhubung</div>
+            <p>${err.message}</p>
+            <button type="button" onclick="bukaModalLoginPanitia()" class="mt-2 px-4 py-2 rounded-lg bg-amber-600 text-white font-bold cursor-pointer">
+              Hubungkan URL Web App GAS Sekarang
+            </button>
           </div>`;
       }
     }
@@ -968,7 +1106,7 @@
       const btn = document.getElementById('btnKirimPenawaran');
       const alertBox = document.getElementById('bidAlertBox');
       btn.disabled = true;
-      btn.textContent = 'Mengirim Penawaran...';
+      btn.textContent = 'Mengirim ke Database...';
 
       const payload = {
         kodeLot: document.getElementById('bidKodeLot').value,
@@ -1006,7 +1144,7 @@
       const q = document.getElementById('inputCekStatus').value.trim();
       const box = document.getElementById('hasilCekStatus');
       if (!q) return;
-      box.innerHTML = '<p class="text-xs text-slate-500">Mencari data registrasi...</p>';
+      box.innerHTML = '<p class="text-xs text-slate-500">Mencari data registrasi di Spreadsheet...</p>';
       try {
         const res = await panggilBackend('cekStatusPeserta', { query: q });
         if (res && res.ok && res.results.length) {
@@ -1058,6 +1196,15 @@
         STATE.lots = res.lots || [];
         document.getElementById('dashRoleBadge').textContent = res.user.role.toUpperCase();
         document.getElementById('dashWelcomeTitle').textContent = 'Selamat Datang, ' + res.user.nama;
+
+        if (res.spreadsheetName) {
+          document.getElementById('dashSpreadsheetBadge').innerHTML = `<i class="fa-solid fa-table"></i> DB: ${res.spreadsheetName}`;
+        }
+        if (res.spreadsheetUrl) {
+          const btnSheet = document.getElementById('btnBukaSpreadsheet');
+          btnSheet.href = res.spreadsheetUrl;
+          btnSheet.classList.remove('hidden');
+        }
 
         if (res.user.role === 'superadmin') {
           document.getElementById('btnTabUsers').classList.remove('hidden');
