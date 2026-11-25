@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LelangPro — Tim Pelaksana Lelang Kebun Manggis Puspahiang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <div id="toast-box" class="toast-box" aria-live="polite"></div>
+
+  <div class="topbar no-print">
+    <div class="container topbar-inner">
+      <div class="topbar-left">
+        <span class="topbar-title" id="tb-lembaga">Sekretariat Tim Pelaksana Lelang Puspahiang</span>
+        <span id="tb-gelombang-badge" class="pill-status-open">● GELOMBANG LELANG DIBUKA</span>
+      </div>
+      <div class="topbar-right">
+        <span id="tb-telp">📞 +62 821-3456-7890</span>
+        <span class="hide-mobile" id="tb-email">✉️ lelang@puspahiang.desa.id</span>
+        <button type="button" class="btn-topbar-login" onclick="openAuthModal()">🔒 Portal Panitia / Login</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="navbar no-print">
+    <div class="container navbar-inner">
+      <a href="#beranda" class="brand" onclick="navigateView('public', 'beranda')">
+        <div class="brand-icon">🌿</div>
+        <div>
+          <div class="brand-name" id="nav-app-name">LelangPro</div>
+          <div class="brand-sub">PUSPAHIANG</div>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="main-nav">
+        <a href="#beranda" class="nav-link active" data-nav="beranda" onclick="navigateView('public', 'beranda')">Beranda</a>
+        <a href="#blok" class="nav-link" data-nav="blok" onclick="navigateView('public', 'blok')">Blok Kebun</a>
+        <a href="#katalog" class="nav-link" data-nav="katalog" onclick="navigateView('public', 'katalog')">Katalog Lot</a>
+        <a href="#tahapan" class="nav-link" data-nav="tahapan" onclick="navigateView('public', 'tahapan')">Tahapan & Aturan</a>
+        <a href="#berita" class="nav-link" data-nav="berita" onclick="navigateView('public', 'berita')">Berita</a>
+        <a href="#cek-status" class="nav-link" data-nav="cek-status" onclick="navigateView('public', 'cek-status')">Cek Status</a>
+        <a href="#dasbor" id="nav-dasbor-link" class="nav-link hidden" onclick="navigateView('dashboard')">Dasbor Panitia</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="btn-icon-circle" id="theme-toggle" title="Ganti Mode Terang/Gelap" onclick="toggleTheme()">🌙</button>
+        <button type="button" class="btn-primary-pill" onclick="navigateView('daftar')">Daftar Lelang</button>
+        <button type="button" class="btn-mobile-menu" onclick="toggleMobileMenu()">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="view-public">
+    <section id="beranda" class="hero-section">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <div class="hero-pill">
+          <span class="dot-amber"></span>
+          <span id="hero-sk">MUSIM PANEN 2026 • SK PANITIA NO. 04/SK-LLG/2026</span>
+        </div>
+        <h1 class="hero-title" id="hero-judul">Portal Resmi Lelang Kebun Manggis Puspahiang</h1>
+        <p class="hero-sub" id="hero-subjudul">
+          Transparansi lelang blok kebun manggis produktif, data tonase pohon terukur, dan kemudahan pendaftaran peserta terbuka tanpa wajib unggah dokumen di muka.
+        </p>
+        <div class="hero-cta-row">
+          <button type="button" class="btn-primary-pill btn-lg" onclick="scrollToSection('katalog')">☷ Lihat Katalog Lot Kebun</button>
+          <button type="button" class="btn-glass-pill btn-lg" onclick="scrollToSection('cek-status')">🔍 Cek Status Peserta</button>
+        </div>
+        <div class="hero-trust-row">
+          <span>✔ 100% Hak Kelola Sah Desa</span>
+          <span>✔ Titik Koordinat Geotagging</span>
+          <span>✔ Verifikasi Lapangan Terbuka</span>
+          <span>✔ Nilai Limit Objektif</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="floating-filter-card">
+        <div class="filter-grid">
+          <div class="filter-item">
+            <label>📍 Wilayah Blok</label>
+            <select id="filter-blok" onchange="applyCatalogFilter()">
+              <option value="">Semua Blok Kebun</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>🏷️ Status Lelang</label>
+            <select id="filter-status" onchange="applyCatalogFilter()">
+              <option value="">Semua Status</option>
+              <option value="Tersedia">Tersedia</option>
+              <option value="Proses Penetapan">Proses Penetapan</option>
+              <option value="Terlelang">Terlelang</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>💰 Maks. Nilai Limit</label>
+            <select id="filter-limit" onchange="applyCatalogFilter()">
+              <option value="0">Semua Nilai Limit</option>
+              <option value="25000000">≤ Rp 25.000.000</option>
+              <option value="35000000">≤ Rp 35.000.000</option>
+              <option value="50000000">≤ Rp 50.000.000</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>🔎 Pencarian Kata Kunci</label>
+            <input type="text" id="filter-keyword" placeholder="Cari kode lot, nama kebun..." oninput="applyCatalogFilter()" />
+          </div>
+          <div class="filter-action">
+            <button type="button" class="btn-navy-pill full-w" onclick="applyCatalogFilter()">🔍 Cari Lot Kebun</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="blok" class="section-pad container">
+      <div class="section-head-split">
+        <div>
+          <span class="eyebrow-sky">DISTRIBUSI WILAYAH AGRIKULTUR</span>
+          <h2 class="section-title">Blok Wilayah Kebun Unggulan</h2>
+        </div>
+        <p class="section-desc">Pemetaan klaster kebun manggis berdasarkan elevasi, topografi lereng, dan indeks produktivitas getah kuning terendah.</p>
+      </div>
+      <div id="blok-wilayah-grid" class="grid-6-cards"></div>
+    </section>
+
+    <section id="katalog" class="section-pad container">
+      <div class="split-catalog-layout">
+        <div>
+          <div class="catalog-toolbar">
+            <div>
+              <span class="eyebrow-sky">KATALOG TERBUKA MUSIM 2026</span>
+              <h2 class="section-title">Daftar Lot Kebun Siap Lelang</h2>
+            </div>
+            <div class="sort-box">
+              <label for="sort-katalog">Urutkan:</label>
+              <select id="sort-katalog" onchange="applyCatalogFilter()">
+                <option value="limit-asc">Nilai Limit: Terendah</option>
+                <option value="limit-desc">Nilai Limit: Tertinggi</option>
+                <option value="panen-desc">Estimasi Panen: Terbesar</option>
+              </select>
+            </div>
+          </div>
+          <div id="katalog-lot-grid" class="grid-2-lots"></div>
+        </div>
+
+        <aside class="why-card">
+          <span class="eyebrow-sky">STANDAR MUTU PUBLIK</span>
+          <h3 class="why-title">Mengapa Memilih LelangPro?</h3>
+          <p class="why-sub">Dirancang untuk menghilangkan asimetri informasi dan praktik spekulasi tengkulak secara adil.</p>
+
+          <div class="why-list">
+            <div class="why-item">
+              <div class="why-icon">⚖️</div>
+              <div>
+                <h4>Nilai Limit Transparan</h4>
+                <p>Penetapan harga limit dasar dihitung objektif oleh tim penaksir independen desa berdasarkan pohon berbuah aktif.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="why-icon">⚡</div>
+              <div>
+                <h4>Tanpa Wajib Berkas di Awal</h4>
+                <p>Pendaftaran peserta lelang cukup verifikasi identitas ringkas & nomor WhatsApp tanpa antrean administrasi rumit.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="why-icon">📊</div>
+              <div>
+                <h4>Spesifikasi & Riwayat Terukur</h4>
+                <p>Lengkap dengan data historis panen 3 musim terakhir, diameter batang pohon, dan estimasi tonase rill.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="why-icon">🔔</div>
+              <div>
+                <h4>Notifikasi Real-time WA & Email</h4>
+                <p>Setiap pendaftaran masuk, jadwal aanwijzing kebun, dan penetapan pemenang diinfokan seketika via gateway resmi.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="help-banner-navy">
+            <div>
+              <strong>Butuh Bantuan Survei Lapangan?</strong>
+              <p>Petugas lapangan siap mendampingi cek pohon.</p>
+            </div>
+            <a id="wa-help-btn" href="https://wa.me/6282134567890" target="_blank" class="btn-icon-circle">📞</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section-pad container">
+      <div class="calculator-card">
+        <div class="calc-left">
+          <span class="badge-amber-soft">🧮 KALKULATOR POTENSI PANEN • BIDDING DECISION TOOL</span>
+          <h2 class="calc-title">Simulasi Margin & Estimasi Nilai Panen</h2>
+          <p class="calc-desc">Hitung perkiraan pendapatan bruto dari hasil usaha tani dari setiap lot berdasarkan rata-rata harga pasar grosir manggis ekspor Puspahiang terkini.</p>
+
+          <div class="calc-inputs-3">
+            <div class="calc-field">
+              <label>Pilih Lot Acuan (Opsional)</label>
+              <select id="calc-lot-select" onchange="syncCalcFromLot()">
+                <option value="">-- Input Manual --</option>
+              </select>
+            </div>
+            <div class="calc-field">
+              <label>Estimasi Hasil (Kg)</label>
+              <input type="number" id="calc-kg" value="4200" oninput="hitungSimulasiMargin()" />
+            </div>
+            <div class="calc-field">
+              <label>Asumsi Harga Jual (Rp/Kg)</label>
+              <input type="number" id="calc-harga" value="18000" oninput="hitungSimulasiMargin()" />
+            </div>
+            <div class="calc-field">
+              <label>Nilai Tawaran / Limit (Rp)</label>
+              <input type="number" id="calc-limit" value="32500000" oninput="hitungSimulasiMargin()" />
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-right">
+          <div class="calc-result-head">
+            <span>Ringkasan Analisis Keuntungan</span>
+            <span class="badge-blue-soft">Estimasi 1 Musim</span>
+          </div>
+          <div class="calc-row">
+            <span>Estimasi Pendapatan Bruto :</span>
+            <strong id="calc-bruto" class="tabular">Rp 75.600.000</strong>
+          </div>
+          <div class="calc-row">
+            <span>Modal Hak Kelola (Bidding) :</span>
+            <strong id="calc-modal" class="text-danger tabular">- Rp 32.500.000</strong>
+          </div>
+          <div class="calc-profit-box">
+            <div>
+              <div class="profit-label">POTENSI LABA BERSIH OPERASIONAL</div>
+              <div id="calc-profit" class="profit-value tabular">Rp 43.100.000</div>
+            </div>
+            <span id="calc-roi" class="badge-roi">+132.6% ROI</span>
+          </div>
+          <small class="calc-note">*Perhitungan belum termasuk biaya operasional panen riil mandiri pemenang (~15%).</small>
+        </div>
+      </div>
+    </section>
+
+    <section id="tahapan" class="section-pad container">
+      <div class="text-center mb-lg">
+        <span class="eyebrow-sky">TRANSPARANSI PROSEDUR</span>
+        <h2 class="section-title">Lini Masa Tahapan Lelang Resmi</h2>
+        <p class="section-desc">Tahapan baku yang menjamin kepastian hukum bagi petani pemilik kebun dan calon peserta pemenang.</p>
+      </div>
+      <div id="jadwal-timeline-grid" class="grid-5-steps"></div>
+
+      <div class="rules-grid mt-lg" id="tata-tertib-grid"></div>
+    </section>
+
+    <section class="section-pad container">
+      <div class="grid-3-equal">
+        <div class="card-surface p-lg">
+          <span class="eyebrow-sky">LANDASAN HUKUM & OTORITAS</span>
+          <h3 id="profil-judul" class="card-h3">Tim Pelaksana Lelang Puspahiang</h3>
+          <p id="profil-isi" class="text-muted">Lembaga ad-hoc kemitraan multi-desa di bawah naungan Kecamatan Puspahiang untuk tata kelola agribisnis komoditas manggis rakyat yang akuntabel.</p>
+          <div class="legal-points" id="profil-hukum"></div>
+        </div>
+
+        <div class="card-navy p-lg">
+          <span class="eyebrow-amber">TRANSPARANSI DATA TERBUKA</span>
+          <h3 class="card-h3 text-white">Capaian Agribisnis Terkini</h3>
+          <p class="text-navy-muted">Parameter agregat seluruh lot kebun anggota konsorsium lelang periode panen berjalan.</p>
+          <div class="kpi-2x2">
+            <div class="kpi-mini-box">
+              <div class="kpi-big tabular" id="stat-lot">6</div>
+              <div class="kpi-lbl">LOT KEBUN AKTIF</div>
+            </div>
+            <div class="kpi-mini-box">
+              <div class="kpi-big tabular" id="stat-pohon">506</div>
+              <div class="kpi-lbl">POHON PRODUKTIF</div>
+            </div>
+            <div class="kpi-mini-box">
+              <div class="kpi-big tabular" id="stat-panen">25,2 Ton</div>
+              <div class="kpi-lbl">ESTIMASI PANEN</div>
+            </div>
+            <div class="kpi-mini-box">
+              <div class="kpi-big tabular" id="stat-peserta">0</div>
+              <div class="kpi-lbl">CALON PESERTA</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-surface p-lg">
+          <span class="eyebrow-sky">DOKUMENTASI NYATA</span>
+          <h3 class="card-h3">Galeri Panen & Pohon</h3>
+          <p class="text-muted">Potret autentik manggis Puspahiang kualitas ekspor.</p>
+          <div class="gallery-3x2">
+            <div class="gal-thumb" style="background:linear-gradient(135deg,#14532d,#166534)">🌳 Blok Pasir Eurih</div>
+            <div class="gal-thumb" style="background:linear-gradient(135deg,#0f294a,#1e3a8a)">🥭 Grade Super A</div>
+            <div class="gal-thumb" style="background:linear-gradient(135deg,#3f2e00,#78350f)">📦 Sortasi Ekspor</div>
+            <div class="gal-thumb" style="background:linear-gradient(135deg,#064e3b,#047857)">🌿 Kebun Cibatu</div>
+            <div class="gal-thumb" style="background:linear-gradient(135deg,#1e293b,#334155)">📋 Survei Pohon</div>
+            <div class="gal-thumb" style="background:linear-gradient(135deg,#4c1d95,#6d28d9)">✨ Manggis Puspahiang</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="berita" class="section-pad container">
+      <div class="split-news-status">
+        <div>
+          <span class="eyebrow-sky">PUBLIKASI TERKINI</span>
+          <h2 class="section-title">Berita Acara & Pengumuman Lelang</h2>
+          <div id="berita-grid" class="grid-2-news"></div>
+        </div>
+
+        <div id="cek-status" class="card-surface p-lg">
+          <span class="eyebrow-sky">LAYANAN MANDIRI</span>
+          <h3 class="card-h3">Lacak Status Pendaftaran Lelang</h3>
+          <p class="text-muted">Masukkan Token Pendaftaran (misal: <code>LLG-2026-00001</code>) atau Email untuk memeriksa progres verifikasi & penetapan.</p>
+          <div class="search-token-row">
+            <input type="text" id="input-cek-token" placeholder="Masukkan Token atau Email..." />
+            <button type="button" class="btn-navy-pill" onclick="handleCekStatus()">🔍 Cek Status</button>
+          </div>
+          <div id="hasil-cek-status" class="status-result-card hidden"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section id="view-daftar" class="section-pad container hidden">
+    <div class="mb-md">
+      <button type="button" class="btn-ghost-pill" onclick="navigateView('public', 'beranda')">← Kembali ke Katalog Lelang</button>
+    </div>
+
+    <div class="info-banner-blue mb-lg">
+      <strong>ℹ️ INFORMASI PENTING (KEMUDAHAN PENDAFTARAN AWAL):</strong>
+      Pendaftaran awal ini <b>TIDAK MEWAJIBKAN</b> unggah dokumen persyaratan atau bukti setor uang jaminan lelang saat ini. Anda dapat langsung memilih lot kebun incaran dan mengirimkan data identitas pemohon.
+    </div>
+
+    <div class="split-register-layout">
+      <form id="form-pendaftaran-lelang" class="card-surface p-lg" onsubmit="submitPendaftaranLelang(event)">
+        <span class="eyebrow-sky">TAHAP 1 DARI 2</span>
+        <h2 class="card-h3">Pilih Lot Kebun yang Diikuti</h2>
+        <p class="text-muted mb-md">Centang satu atau lebih lot pohon manggis produktif yang ingin Anda ajukan penawarannya.</p>
+        <div id="daftar-lot-selector" class="grid-2-lots mb-lg"></div>
+
+        <hr class="divider-hr" />
+
+        <span class="eyebrow-sky">TAHAP 2 DARI 2</span>
+        <h2 class="card-h3">Identitas & Profil Calon Peserta</h2>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Nama Lengkap (Sesuai KTP / Perusahaan) *</label>
+            <input type="text" id="reg-nama" required placeholder="Contoh: Bambang Suryono / PT Agro Puspahiang" />
+          </div>
+          <div class="form-group">
+            <label>Nomor Induk Kependudukan (NIK) <span class="badge-opt">Opsional Tahap Awal</span></label>
+            <input type="text" id="reg-nik" maxlength="16" placeholder="16 digit NIK (dapat dilengkapi nanti)" />
+          </div>
+          <div class="form-group">
+            <label>Nomor WhatsApp Aktif *</label>
+            <input type="tel" id="reg-wa" required placeholder="082134567890 atau 62821xxxx" />
+          </div>
+          <div class="form-group">
+            <label>Alamat Email *</label>
+            <input type="email" id="reg-email" required placeholder="nama@email.com" />
+          </div>
+          <div class="form-group full-col">
+            <label>Alamat Domisili Lengkap / Kantor Operasional *</label>
+            <input type="text" id="reg-alamat" required placeholder="Kp. / Jl., Desa, Kecamatan, Kabupaten/Kota" />
+          </div>
+          <div class="form-group">
+            <label>Estimasi Rencana Tawaran (Rp) <span class="badge-opt">Opsional</span></label>
+            <input type="number" id="reg-tawaran" placeholder="Contoh: 35000000" />
+          </div>
+          <div class="form-group">
+            <label>Unggah Berkas Tambahan <span class="badge-opt">Opsional — KTP / NPWP</span></label>
+            <input type="file" id="reg-berkas" accept=".pdf,.jpg,.jpeg,.png" />
+          </div>
+        </div>
+
+        <div id="dynamic-form-fields" class="form-grid-2 mt-md"></div>
+
+        <div class="checkbox-agree mt-md">
+          <input type="checkbox" id="reg-setuju" required />
+          <label for="reg-setuju">Saya menyatakan bahwa data yang diisikan adalah benar dan menyetujui Tata Tertib Lelang Kebun Manggis Puspahiang.</label>
+        </div>
+
+        <div class="mt-lg">
+          <button type="submit" id="btn-submit-daftar" class="btn-primary-pill btn-lg">🚀 Kirim Pendaftaran Lelang Sekarang</button>
+        </div>
+      </form>
+
+      <aside>
+        <div id="box-token-sukses" class="card-navy p-lg mb-md hidden">
+          <span class="badge-roi">✔ PENDAFTARAN BERHASIL DIKIRIM!</span>
+          <h3 class="text-white mt-sm">TOKEN PENDAFTARAN RESMI</h3>
+          <div class="token-display-box">
+            <span id="res-token-code" class="token-big">LLG-2026-00001</span>
+            <button type="button" class="btn-primary-pill btn-sm" onclick="copyTokenResmi()">Salin Token</button>
+          </div>
+          <p class="text-navy-muted mt-sm">Notifikasi bukti registrasi otomatis dikirimkan ke WhatsApp & Email Anda.</p>
+        </div>
+
+        <div class="card-surface p-lg">
+          <h3 class="card-h3">Tahapan Selepas Pendaftaran</h3>
+          <ol class="step-list-clean">
+            <li><strong>Verifikasi Administratif:</strong> Panitia memvalidasi identitas peserta dan menghubungi via WhatsApp.</li>
+            <li><strong>Jadwal Aanwijzing (Survei Kebun):</strong> Peninjauan langsung populasi pohon manggis di lokasi blok.</li>
+            <li><strong>Penetapan Pemenang & BAL:</strong> Pengesahan resmi dan penerbitan Berita Acara Lelang ber-QR.</li>
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="view-dashboard" class="dashboard-shell hidden">
+    <aside class="dash-sidebar">
+      <div class="dash-active-pill">
+        <span class="dot-green"></span>
+        <div>
+          <small>Sesi Aktif</small>
+          <strong>Lelang Manggis 2026</strong>
+        </div>
+      </div>
+
+      <nav class="dash-nav">
+        <button type="button" class="dash-nav-btn active" data-tab="ringkasan" onclick="switchDashTab('ringkasan')">⊞ Ringkasan & Peserta</button>
+        <button type="button" class="dash-nav-btn" data-tab="katalog-admin" onclick="switchDashTab('katalog-admin')">🌳 Manajemen Lot Kebun</button>
+        <button type="button" class="dash-nav-btn" data-tab="bal-admin" onclick="switchDashTab('bal-admin')">📜 Berita Acara & Penetapan</button>
+        <button type="button" class="dash-nav-btn superadmin-only" data-tab="pengaturan-admin" onclick="switchDashTab('pengaturan-admin')">⚙️ Pengaturan & Keamanan</button>
+      </nav>
+
+      <div class="dash-user-footer">
+        <div class="user-avatar-circle">PL</div>
+        <div class="user-meta">
+          <strong id="dash-user-name">Panitia Lelang</strong>
+          <small id="dash-user-role">Verifikator</small>
+        </div>
+        <button type="button" class="btn-ghost-sm" title="Keluar" onclick="logoutDashboard()">🚪</button>
+      </div>
+    </aside>
+
+    <div class="dash-main">
+      <div class="dash-header-bar">
+        <div>
+          <span class="eyebrow-sky">CONSOLE PANITIA & PEJABAT LELANG</span>
+          <h2 class="section-title">Dasbor Operasional Lelang Kebun Manggis 2026</h2>
+        </div>
+        <div class="dash-header-actions">
+          <button type="button" class="btn-emerald-pill superadmin-only" onclick="handleEksporExcel()">📊 Unduh Laporan Excel (.xlsx)</button>
+          <button type="button" class="btn-ghost-pill" onclick="refreshDashboard(true)">🔄 Sinkronkan</button>
+        </div>
+      </div>
+
+      <div id="dash-tab-ringkasan" class="dash-tab-pane">
+        <div class="kpi-4-grid">
+          <div class="kpi-card">
+            <span class="kpi-title">TOTAL PESERTA TERDAFTAR</span>
+            <div class="kpi-num tabular" id="dkpi-total">0</div>
+            <span class="badge-green-soft">Terdata di sistem</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">MENUNGGU VERIFIKASI</span>
+            <div class="kpi-num tabular" id="dkpi-baru">0</div>
+            <span class="badge-amber-soft">Butuh tinjauan panitia</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">TERVERIFIKASI SAH</span>
+            <div class="kpi-num tabular" id="dkpi-valid">0</div>
+            <span class="badge-green-soft">Lolos verifikasi</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">DITETAPKAN PEMENANG</span>
+            <div class="kpi-num tabular" id="dkpi-pemenang">0</div>
+            <span class="badge-blue-soft">BAL Diterbitkan</span>
+          </div>
+        </div>
+
+        <div class="card-surface p-lg mt-lg">
+          <div class="table-toolbar">
+            <h3>Daftar Peserta Lelang & Verifikasi Panitia</h3>
+            <div class="table-filters">
+              <input type="text" id="dash-search-peserta" placeholder="Cari Token, Nama, atau No HP..." oninput="renderDashPesertaTable()" />
+              <select id="dash-filter-verif" onchange="renderDashPesertaTable()">
+                <option value="">Status Verifikasi: Semua</option>
+                <option value="Baru">Baru</option>
+                <option value="Terverifikasi">Terverifikasi</option>
+                <option value="Perlu Perbaikan">Perlu Perbaikan</option>
+                <option value="TMS">TMS (Gugur)</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>TOKEN & TGL</th>
+                  <th>PESERTA & KONTAK</th>
+                  <th>LOT KEBUN TARGET</th>
+                  <th class="text-right">ESTIMASI TAWARAN</th>
+                  <th>STATUS VERIFIKASI</th>
+                  <th>PENETAPAN PEJABAT</th>
+                  <th>TINDAKAN PANITIA</th>
+                </tr>
+              </thead>
+              <tbody id="dash-peserta-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid-2-equal mt-lg superadmin-only">
+          <div class="card-surface p-lg">
+            <div class="flex-between">
+              <div>
+                <strong>📡 Fonnte WhatsApp API</strong>
+                <span id="fonnte-status-badge" class="badge-green-soft">TERKONEKSI</span>
+                <p class="text-muted mt-xs">Token tersimpan aman di Script Properties: <code id="fonnte-mask-text">••••••</code></p>
+              </div>
+              <button type="button" class="btn-ghost-pill" onclick="promptTesPingFonnte()">📶 Tes Ping</button>
+            </div>
+          </div>
+
+          <div class="card-danger-soft p-lg">
+            <div class="flex-between">
+              <div>
+                <strong class="text-danger">⚠️ Area Berbahaya Superadmin</strong>
+                <p class="text-muted mt-xs">Bersihkan seluruh data simulasi (<code>is_dummy = TRUE</code>) dalam 1 klik sebelum lelang resmi dibuka.</p>
+              </div>
+              <button type="button" class="btn-danger-pill" onclick="handleHapusDummy()">🗑️ Hapus Data Dummy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="dash-tab-katalog-admin" class="dash-tab-pane hidden">
+        <div class="card-surface p-lg">
+          <div class="flex-between mb-md">
+            <h3>Manajemen Katalog Lot Kebun Manggis</h3>
+            <button type="button" class="btn-primary-pill superadmin-only" onclick="openModalLotForm()">+ Tambah Lot Kebun Baru</button>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>KODE LOT</th>
+                  <th>NAMA KEBUN & BLOK</th>
+                  <th>POPULASI & PANEN</th>
+                  <th class="text-right">NILAI LIMIT</th>
+                  <th>STATUS LOT</th>
+                  <th>AKSI</th>
+                </tr>
+              </thead>
+              <tbody id="dash-katalog-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="dash-tab-bal-admin" class="dash-tab-pane hidden">
+        <div class="card-surface p-lg">
+          <h3>Arsip Salinan Resmi Berita Acara Penetapan Pemenang Lelang (BAL)</h3>
+          <p class="text-muted mb-md">Setiap penetapan pemenang otomatis menerbitkan dokumen BAL ber-QR dan dilindungi hash kriptografi SHA-256.</p>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>NOMOR BAL</th>
+                  <th>PEMENANG LELANG</th>
+                  <th>KODE LOT</th>
+                  <th class="text-right">NILAI PENETAPAN</th>
+                  <th>KODE VERIFIKASI</th>
+                  <th>DOKUMEN CETAK</th>
+                </tr>
+              </thead>
+              <tbody id="dash-bal-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="dash-tab-pengaturan-admin" class="dash-tab-pane hidden">
+        <div class="grid-2-equal">
+          <form class="card-surface p-lg" onsubmit="submitSimpanRahasia(event)">
+            <h3>🔐 Konfigurasi Rahasia (Script Properties)</h3>
+            <p class="text-muted mb-md">Nilai rahasia tidak pernah disimpan di kode maupun spreadsheet. Kosongkan jika tidak ingin mengubah.</p>
+            <div class="form-group mb-md">
+              <label>Fonnte WhatsApp API Token</label>
+              <input type="password" id="set-fonnte-token" placeholder="Masukkan token Fonnte baru..." />
+            </div>
+            <div class="form-group mb-md">
+              <label>Google OAuth 2.0 Client ID</label>
+              <input type="text" id="set-google-client-id" placeholder="xxxx.apps.googleusercontent.com" />
+            </div>
+            <button type="submit" class="btn-navy-pill">Simpan ke Script Properties</button>
+          </form>
+
+          <form class="card-surface p-lg" onsubmit="submitKelolaGelombang(event)">
+            <h3>📅 Kontrol Periode Gelombang Lelang</h3>
+            <div class="form-group mb-md">
+              <label>Nama Gelombang Aktif</label>
+              <input type="text" id="set-gel-nama" required />
+            </div>
+            <div class="form-group mb-md">
+              <label>Batas Akhir Pendaftaran (YYYY-MM-DD HH:MM:SS)</label>
+              <input type="text" id="set-gel-tutup" required />
+            </div>
+            <div class="form-group mb-md">
+              <label>Status Gelombang</label>
+              <select id="set-gel-status">
+                <option value="BUKA">BUKA (Terima Pendaftaran)</option>
+                <option value="TUTUP">TUTUP (Kunci Pendaftaran)</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary-pill">Simpan Status Gelombang</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-navy no-print">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand-name text-white">🌿 LelangPro Puspahiang</div>
+        <p class="text-navy-muted mt-sm">Portal Resmi Lelang Komoditas Kebun Manggis Rakyat Puspahiang di bawah koordinasi Tim Pelaksana Lelang Kecamatan Puspahiang, Kabupaten Tasikmalaya.</p>
+        <a href="https://wa.me/6282134567890" target="_blank" class="btn-sky-pill mt-md">💬 WhatsApp Sekretariat Panitia</a>
+      </div>
+      <div>
+        <h4 class="footer-head">Navigasi Cepat</h4>
+        <ul class="footer-links">
+          <li><a href="#beranda" onclick="navigateView('public','beranda')">› Beranda Utama</a></li>
+          <li><a href="#blok" onclick="navigateView('public','blok')">› Peta Blok Kebun</a></li>
+          <li><a href="#katalog" onclick="navigateView('public','katalog')">› Katalog Lot Manggis</a></li>
+          <li><a href="#tahapan" onclick="navigateView('public','tahapan')">› Prosedur & Tata Tertib</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-head">Sekretariat & Jam Layanan</h4>
+        <p class="text-navy-muted">📍 Jl. Raya Puspahiang No. 90, Kec. Puspahiang, Kab. Tasikmalaya, Jawa Barat 46471</p>
+        <p class="text-navy-muted mt-xs">🕒 Senin - Jumat: 08.00 - 16.00 WIB</p>
+      </div>
+      <div>
+        <h4 class="footer-head">Lokasi Balai Lelang</h4>
+        <div class="map-box-mini">
+          <strong>Kantor Kecamatan Puspahiang</strong>
+          <small>Pusat Lelang Komoditas Hortikultura</small>
+          <a href="https://maps.google.com/?q=-7.4258,108.0462" target="_blank" class="btn-white-sm mt-sm">Buka Google Maps</a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 Tim Pelaksana Lelang Puspahiang. Hak Cipta Dilindungi Undang-Undang.</span>
+      <span>Sistem Informasi Terpadu Hortikultura</span>
+    </div>
+  </footer>
+
+  <div id="modal-auth" class="modal-backdrop hidden">
+    <div class="modal-card modal-sm">
+      <div class="modal-head">
+        <h3>🔒 Portal Internal Panitia & Pejabat Lelang</h3>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modal-auth')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted mb-md">Masuk menggunakan akun Google resmi yang telah didaftarkan pada sistem Tim Pelaksana Lelang Puspahiang.</p>
+        <div id="g_id_signin_container" class="mb-md"></div>
+
+        <div id="emergency-login-box" class="hidden mt-md pt-md border-top">
+          <span class="badge-danger-soft mb-sm">⚠️ JALUR AKSES DARURAT SUPERADMIN</span>
+          <form onsubmit="submitLoginDarurat(event)">
+            <div class="form-group mb-sm">
+              <label>Username Darurat</label>
+              <input type="text" id="em-user" value="darurat" required />
+            </div>
+            <div class="form-group mb-md">
+              <label>Kata Sandi Darurat</label>
+              <input type="password" id="em-pass" required placeholder="Masukkan sandi 16 karakter..." />
+            </div>
+            <button type="submit" class="btn-navy-pill full-w">Masuk Jalur Darurat</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-lot-detail" class="modal-backdrop hidden">
+    <div class="modal-card modal-md">
+      <div class="modal-head">
+        <h3 id="md-lot-title">Detail Lot Kebun</h3>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modal-lot-detail')">✕</button>
+      </div>
+      <div class="modal-body" id="md-lot-body"></div>
+    </div>
+  </div>
+
+  <div id="modal-verifikasi" class="modal-backdrop hidden">
+    <div class="modal-card modal-sm">
+      <div class="modal-head">
+        <h3>✅ Verifikasi Administrasi Peserta</h3>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modal-verifikasi')">✕</button>
+      </div>
+      <form class="modal-body" onsubmit="submitVerifikasiPeserta(event)">
+        <input type="hidden" id="verif-peserta-id" />
+        <p id="verif-peserta-info" class="mb-md"></p>
+        <div class="form-group mb-md">
+          <label>Status Verifikasi Panitia</label>
+          <select id="verif-status" required>
+            <option value="Terverifikasi">Terverifikasi (Memenuhi Syarat)</option>
+            <option value="Perlu Perbaikan">Perlu Perbaikan</option>
+            <option value="TMS">Tidak Memenuhi Syarat (TMS)</option>
+            <option value="Baru">Baru</option>
+          </select>
+        </div>
+        <div class="form-group mb-md">
+          <label>Catatan Resmi Verifikator</label>
+          <textarea id="verif-catatan" rows="3" placeholder="Contoh: Berkas identitas lengkap, jadwal aanwijzing dikonfirmasi."></textarea>
+        </div>
+        <button type="submit" class="btn-navy-pill full-w">Simpan Status & Kirim Notifikasi</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-penetapan" class="modal-backdrop hidden">
+    <div class="modal-card modal-md">
+      <div class="modal-head">
+        <div>
+          <span class="badge-navy-soft">HAK AKSES KHUSUS: PEJABAT LELANG / SUPERADMIN</span>
+          <h3 class="mt-xs">Penetapan Status Akhir & Berita Acara Pemenang Lelang</h3>
+        </div>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modal-penetapan')">✕</button>
+      </div>
+      <form class="modal-body" onsubmit="submitPenetapanPemenang(event)">
+        <input type="hidden" id="pen-peserta-id" />
+        <div id="pen-ringkasan-peserta" class="info-banner-blue mb-md"></div>
+
+        <label class="mb-xs block"><strong>⚖️ Pilihan Penetapan Status Akhir</strong></label>
+        <div class="radio-cards-2x2 mb-md">
+          <label class="radio-box-card">
+            <input type="radio" name="pen_status" value="Pemenang" checked />
+            <div><strong>🏆 Ditetapkan Pemenang Utama</strong><small>Hak garap kebun manggis penuh</small></div>
+          </label>
+          <label class="radio-box-card">
+            <input type="radio" name="pen_status" value="Cadangan 1" />
+            <div><strong>🛡️ Pemenang Cadangan 1</strong><small>Menggantikan bila pemenang wanprestasi</small></div>
+          </label>
+          <label class="radio-box-card">
+            <input type="radio" name="pen_status" value="Cadangan 2" />
+            <div><strong>🛡️ Pemenang Cadangan 2</strong><small>Prioritas urutan cadangan kedua</small></div>
+          </label>
+          <label class="radio-box-card">
+            <input type="radio" name="pen_status" value="Gugur" />
+            <div><strong>❌ Gugurkan / Diskualifikasi</strong><small>Peserta dibatalkan hak penetapan</small></div>
+          </label>
+        </div>
+
+        <div class="form-group mb-md">
+          <label>Nomor Berita Acara Lelang (BAST / BAL)</label>
+          <input type="text" id="pen-nomor-bal" required />
+        </div>
+        <div class="form-group mb-md">
+          <label>Catatan Resmi Keputusan Pejabat Lelang</label>
+          <textarea id="pen-catatan" rows="2">Penawaran memenuhi kualifikasi teknis dan disahkan berdasarkan Rapat Pleno Tim Pelaksana Lelang Puspahiang.</textarea>
+        </div>
+        <div class="checkbox-agree mb-md">
+          <input type="checkbox" id="pen-kunci-lot" checked />
+          <label for="pen-kunci-lot">Otomatis kunci status Lot menjadi <b>Terlelang</b> di Katalog Publik & terbitkan BAL ber-QR.</label>
+        </div>
+        <div class="flex-end gap-sm">
+          <button type="button" class="btn-ghost-pill" onclick="closeModal('modal-penetapan')">Batal</button>
+          <button type="submit" class="btn-navy-pill">⚖️ Sahkan & Tetapkan Pemenang</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-bal-print" class="modal-backdrop hidden">
+    <div class="modal-card modal-lg">
+      <div class="modal-head no-print">
+        <h3>📜 Salinan Resmi Berita Acara Penetapan Pemenang Lelang (BAL)</h3>
+        <div class="flex-end gap-sm">
+          <button type="button" class="btn-navy-pill" onclick="window.print()">🖨️ Cetak / Simpan PDF (A4)</button>
+          <button type="button" class="btn-close-modal" onclick="closeModal('modal-bal-print')">✕</button>
+        </div>
+      </div>
+      <div class="modal-body" id="bal-sheet-content"></div>
+    </div>
+  </div>
+
+  <div id="modal-lot-crud" class="modal-backdrop hidden">
+    <div class="modal-card modal-md">
+      <div class="modal-head">
+        <h3 id="crud-lot-title">Tambah / Ubah Lot Kebun Manggis</h3>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modal-lot-crud')">✕</button>
+      </div>
+      <form class="modal-body" onsubmit="submitCrudLot(event)">
+        <input type="hidden" id="crud-lot-id" />
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Kode Lot *</label>
+            <input type="text" id="crud-kode" required placeholder="LOT-MG-07" />
+          </div>
+          <div class="form-group">
+            <label>Blok Wilayah *</label>
+            <input type="text" id="crud-blok" required placeholder="Pasir Eurih" />
+          </div>
+          <div class="form-group full-col">
+            <label>Nama Kebun *</label>
+            <input type="text" id="crud-nama" required placeholder="Kebun Manggis Blok Selatan" />
+          </div>
+          <div class="form-group">
+            <label>Luas Area *</label>
+            <input type="text" id="crud-luas" required placeholder="1.5 Hektar" />
+          </div>
+          <div class="form-group">
+            <label>Jumlah Pohon Produktif *</label>
+            <input type="number" id="crud-pohon" required placeholder="90" />
+          </div>
+          <div class="form-group">
+            <label>Estimasi Panen (Kg) *</label>
+            <input type="number" id="crud-panen" required placeholder="4500" />
+          </div>
+          <div class="form-group">
+            <label>Nilai Limit (Rp) *</label>
+            <input type="number" id="crud-limit" required placeholder="35000000" />
+          </div>
+          <div class="form-group">
+            <label>Status Lot</label>
+            <select id="crud-status">
+              <option value="Tersedia">Tersedia</option>
+              <option value="Proses Penetapan">Proses Penetapan</option>
+              <option value="Terlelang">Terlelang</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ID Gambar Google Drive (Opsional)</label>
+            <input type="text" id="crud-gambar" placeholder="1AbCdEfGhIjKlMnOp..." />
+          </div>
+          <div class="form-group full-col">
+            <label>Deskripsi Teknis Kebun</label>
+            <textarea id="crud-deskripsi" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="mt-md flex-end gap-sm">
+          <button type="button" class="btn-ghost-pill" onclick="closeModal('modal-lot-crud')">Batal</button>
+          <button type="submit" class="btn-primary-pill">Simpan Lot Kebun</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="./config.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
