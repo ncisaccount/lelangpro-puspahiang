@@ -22,7 +22,7 @@
       background: linear-gradient(135deg, #fbbf24 0%, #b45309 100%);
     }
     .modal-backdrop {
-      background-color: rgba(7, 25, 38, 0.72);
+      background-color: rgba(7, 25, 38, 0.78);
       backdrop-filter: blur(4px);
     }
   </style>
@@ -66,10 +66,11 @@
       </a>
 
       <nav class="hidden md:flex items-center gap-1 text-sm font-semibold text-slate-600">
-        <a href="#beranda" onclick="tampilkanTampilanPublik()" class="px-3.5 py-2 rounded-full bg-slate-100 text-slate-900">Beranda</a>
-        <a href="#blok-kebun" onclick="tampilkanTampilanPublik()" class="px-3.5 py-2 rounded-full hover:bg-slate-100 transition">Blok Kebun</a>
-        <a href="#katalog-lot" onclick="tampilkanTampilanPublik()" class="px-3.5 py-2 rounded-full hover:bg-slate-100 transition">Katalog Lot</a>
-        <a href="#cek-status" onclick="tampilkanTampilanPublik()" class="px-3.5 py-2 rounded-full hover:bg-slate-100 transition">Cek Status & Cetak Bukti</a>
+        <a href="#beranda" onclick="tampilkanTampilanPublik()" class="px-3 py-2 rounded-full bg-slate-100 text-slate-900">Beranda</a>
+        <a href="#blok-kebun" onclick="tampilkanTampilanPublik()" class="px-3 py-2 rounded-full hover:bg-slate-100 transition">Blok Kebun</a>
+        <a href="#katalog-lot" onclick="tampilkanTampilanPublik()" class="px-3 py-2 rounded-full hover:bg-slate-100 transition">Katalog Lot</a>
+        <a href="#jadwal-kalender" onclick="tampilkanTampilanPublik()" class="px-3 py-2 rounded-full hover:bg-slate-100 transition">Kalender Lelang</a>
+        <a href="#cek-status" onclick="tampilkanTampilanPublik()" class="px-3 py-2 rounded-full hover:bg-slate-100 transition">Cetak Bukti</a>
       </nav>
 
       <div class="flex items-center gap-2.5">
@@ -100,7 +101,7 @@
           Portal Resmi Lelang Kebun Manggis Puspahiang
         </h1>
         <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-8">
-          Transparansi lelang blok kebun manggis produktif, data tonase pohon terukur, dan kemudahan pengajuan penawaran terbuka tanpa syarat uang jaminan di muka.
+          Transparansi lelang blok kebun manggis produktif, dokumentasi foto multi-sudut tiap lokasi kebun, jadwal terintegrasi Google Calendar, dan tanda terima resmi ber-QR.
         </p>
 
         <div class="flex flex-wrap items-center justify-center gap-3.5 mb-8">
@@ -108,9 +109,9 @@
             class="gold-gradient text-slate-950 font-extrabold px-6 py-3.5 rounded-full shadow-lg inline-flex items-center gap-2 transition cursor-pointer">
             <i class="fa-solid fa-gavel"></i> Ajukan Penawaran Lelang
           </button>
-          <a href="#cek-status"
+          <a href="#jadwal-kalender"
             class="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 text-white font-bold inline-flex items-center gap-2 transition">
-            <i class="fa-solid fa-print"></i> Cetak Tanda Terima
+            <i class="fa-regular fa-calendar-check"></i> Jadwal Google Calendar
           </a>
         </div>
 
@@ -192,7 +193,7 @@
       <div id="blokSummaryGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
     </section>
 
-    <!-- KATALOG LOT LELANG -->
+    <!-- KATALOG LOT LELANG (DENGAN GALERI MULTI-FOTO) -->
     <section id="katalog-lot" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="flex items-center justify-between mb-6">
         <div>
@@ -200,7 +201,7 @@
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Katalog Lot Kebun Manggis</h2>
         </div>
         <button type="button" onclick="muatDataPublik()" class="text-xs font-bold px-3.5 py-2 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 cursor-pointer">
-          <i class="fa-solid fa-rotate mr-1"></i> Sinkronkan Spreadsheet
+          <i class="fa-solid fa-rotate mr-1"></i> Sinkronkan Data
         </button>
       </div>
 
@@ -212,10 +213,34 @@
       </div>
     </section>
 
+    <!-- KALENDER JADWAL LELANG (TERINTEGRASI EKOSISTEM GOOGLE CALENDAR) -->
+    <section id="jadwal-kalender" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-200">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 text-sky-800 border border-sky-200 text-xs font-bold mb-2">
+              <i class="fa-brands fa-google text-sky-600"></i> Terintegrasi Google Calendar
+            </div>
+            <h2 id="publicCalendarTitle" class="text-2xl font-extrabold text-slate-900">Kalender Jadwal Lelang Kebun Manggis</h2>
+            <p class="text-xs text-slate-600 mt-1">Jadwal survei lapangan, batas akhir penawaran, dan sidang penetapan pemenang langsung dari Google Calendar panitia.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <a id="btnOpenGoogleCalendarWeb" href="https://calendar.google.com" target="_blank" rel="noopener noreferrer"
+              class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold inline-flex items-center gap-1.5 shadow-xs transition">
+              <i class="fa-regular fa-calendar"></i> Buka Google Calendar
+            </a>
+          </div>
+        </div>
+
+        <div id="publicCalendarGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div class="col-span-full text-center py-8 text-xs text-slate-500">Memuat jadwal dari Google Calendar...</div>
+        </div>
+      </div>
+    </section>
+
     <!-- CEK STATUS PENAWARAN & CETAK TANDA TERIMA (GAS DOC ENGINE) -->
-    <section id="cek-status" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <section id="cek-status" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Kolom Kiri: Cek Status & Cetak Tanda Terima -->
         <div class="lg:col-span-2 bg-white rounded-2xl shadow-md border border-slate-200 p-6 sm:p-8">
           <h2 class="text-xl font-extrabold text-slate-900 mb-1">Cek Status & Cetak Tanda Terima</h2>
           <p class="text-xs text-slate-600 mb-5">
@@ -232,7 +257,6 @@
           <div id="hasilCekStatus" class="mt-5 space-y-3"></div>
         </div>
 
-        <!-- Kolom Kanan: Verifikasi Keaslian QR Dokumen -->
         <div class="bg-slate-900 text-white rounded-2xl shadow-md p-6 flex flex-col justify-between">
           <div>
             <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold uppercase mb-3">
@@ -256,7 +280,7 @@
   </main>
 
   <!-- ====================================================================== -->
-  <!-- VIEW 2: DASHBOARD INTERNAL PANITIA & SUPERADMIN (MUNCUL SETELAH LOGIN) -->
+  <!-- VIEW 2: DASHBOARD INTERNAL PANITIA & SUPERADMIN                        -->
   <!-- ====================================================================== -->
   <section id="adminDashboardView" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <div class="bg-[#092635] text-white rounded-2xl p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg">
@@ -270,7 +294,7 @@
           </span>
         </div>
         <h1 class="text-2xl font-extrabold" id="dashWelcomeTitle">Dashboard Tim Pelaksana Lelang</h1>
-        <p class="text-xs text-slate-300 mt-1">Kelola verifikasi peserta, katalog lot kebun, upload foto, pengaturan lembaga, dan tanda terima PDF.</p>
+        <p class="text-xs text-slate-300 mt-1">Kelola verifikasi peserta, katalog lot & multi-foto kebun, Google Calendar, dan pengaturan lembaga.</p>
       </div>
       <div class="flex flex-wrap items-center gap-2.5">
         <a id="btnBukaSpreadsheet" href="#" target="_blank" rel="noopener noreferrer"
@@ -320,7 +344,11 @@
       </button>
       <button type="button" onclick="switchAdminTab('tabLots')" id="btnTabLots"
         class="px-4 py-2 rounded-xl bg-white text-slate-700 border border-slate-200 text-xs font-bold cursor-pointer">
-        <i class="fa-solid fa-tree mr-1.5"></i> Kelola Lot Kebun & Upload Foto
+        <i class="fa-solid fa-images mr-1.5"></i> Kelola Lot & Multi-Foto Kebun
+      </button>
+      <button type="button" onclick="switchAdminTab('tabCalendar')" id="btnTabCalendar"
+        class="px-4 py-2 rounded-xl bg-white text-slate-700 border border-slate-200 text-xs font-bold cursor-pointer">
+        <i class="fa-regular fa-calendar-plus mr-1.5"></i> Google Calendar Lelang
       </button>
       <button type="button" onclick="switchAdminTab('tabUsers')" id="btnTabUsers"
         class="px-4 py-2 rounded-xl bg-white text-slate-700 border border-slate-200 text-xs font-bold cursor-pointer">
@@ -349,10 +377,13 @@
       </div>
     </div>
 
-    <!-- TAB 2: KELOLA LOT KEBUN & UPLOAD FOTO -->
+    <!-- TAB 2: KELOLA LOT KEBUN & MULTI-UPLOAD FOTO -->
     <div id="tabLots" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
-        <h3 class="font-extrabold text-base text-slate-900 mb-4">Tambah / Perbarui Lot Kebun</h3>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-extrabold text-base text-slate-900">Tambah / Perbarui Lot Kebun</h3>
+          <button type="button" onclick="resetFormLotBaru()" class="text-[11px] font-bold text-teal-700 underline cursor-pointer">+ Form Baru</button>
+        </div>
         <form id="formLotKebun" onsubmit="submitFormLot(event)" class="space-y-3 text-xs">
           <div>
             <label class="font-bold text-slate-700">Kode Lot *</label>
@@ -398,16 +429,18 @@
               class="w-full mt-1 rounded-lg border border-slate-300 px-3 py-2" />
           </div>
 
-          <!-- UPLOAD FOTO KEBUN LANGSUNG KE GOOGLE DRIVE & SPREADSHEET -->
-          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-            <label class="font-bold text-slate-700 flex items-center gap-1.5">
-              <i class="fa-solid fa-camera text-teal-700"></i> Upload Foto Lokasi Kebun
-            </label>
-            <input type="file" id="lotFotoFile" accept="image/*" onchange="handleUploadFotoLot(event)"
+          <!-- MULTI-UPLOAD FOTO LOKASI KEBUN -->
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <label class="font-bold text-slate-700 flex items-center gap-1.5">
+                <i class="fa-solid fa-camera text-teal-700"></i> Upload Multi-Foto Lokasi Kebun
+              </label>
+              <span id="lotFotoCounter" class="text-[11px] font-bold text-teal-700">0 Foto</span>
+            </div>
+            <input type="file" id="lotFotoFile" accept="image/*" multiple onchange="handleUploadFotoLot(event)"
               class="w-full text-[11px] file:mr-2.5 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-teal-700 file:text-white hover:file:bg-teal-800 cursor-pointer" />
-            <input type="hidden" id="lotFotoUrl" />
-            <div id="lotFotoStatus" class="text-[11px] text-slate-500">Pilih foto untuk langsung diunggah ke Drive & disimpan ke database.</div>
-            <img id="lotFotoPreview" src="" alt="Preview Foto Kebun" class="hidden w-full h-32 object-cover rounded-lg border border-slate-200 mt-1" />
+            <div id="lotFotoStatus" class="text-[11px] text-slate-500">Bisa pilih beberapa foto sekaligus atau tambahkan bertahap.</div>
+            <div id="lotFotoPreviewGrid" class="grid grid-cols-3 gap-2 pt-1"></div>
           </div>
 
           <div>
@@ -416,7 +449,7 @@
           </div>
           <button type="submit" id="btnSimpanLot"
             class="w-full py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold cursor-pointer">
-            Simpan Lot & Foto ke Spreadsheet
+            Simpan Lot & Semua Foto ke Spreadsheet
           </button>
         </form>
       </div>
@@ -426,7 +459,7 @@
           <table class="w-full text-left text-xs">
             <thead class="bg-slate-100 text-slate-700 uppercase font-extrabold border-b border-slate-200">
               <tr>
-                <th class="px-4 py-3">Foto</th>
+                <th class="px-4 py-3">Galeri Foto</th>
                 <th class="px-4 py-3">Kode & Kebun</th>
                 <th class="px-4 py-3">Spesifikasi</th>
                 <th class="px-4 py-3">Limit / Tertinggi</th>
@@ -440,14 +473,74 @@
       </div>
     </div>
 
-    <!-- TAB 3: MANAJEMEN AKUN & PENGATURAN SISTEM LEMBAGA (DIPISAH DARI KATALOG LOT) -->
+    <!-- TAB 3: KELOLA GOOGLE CALENDAR JADWAL LELANG -->
+    <div id="tabCalendar" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center">
+            <i class="fa-brands fa-google"></i>
+          </span>
+          <div>
+            <h3 class="font-extrabold text-base text-slate-900">Tambah Jadwal ke Google Calendar</h3>
+            <p class="text-[11px] text-slate-500">Otomatis sinkron ke Kalender Publik Portal</p>
+          </div>
+        </div>
+        <form onsubmit="submitAgendaKalender(event)" class="space-y-3 text-xs">
+          <div>
+            <label class="font-bold text-slate-700">Nama Kegiatan / Tahapan Lelang *</label>
+            <input type="text" id="calTitle" required placeholder="Contoh: Survei Lapangan Blok Cikondang"
+              class="w-full mt-1 rounded-lg border border-slate-300 px-3 py-2" />
+          </div>
+          <div>
+            <label class="font-bold text-slate-700">Tanggal Kegiatan *</label>
+            <input type="date" id="calTanggal" required
+              class="w-full mt-1 rounded-lg border border-slate-300 px-3 py-2" />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="font-bold text-slate-700">Jam Mulai</label>
+              <input type="time" id="calJamMulai" value="09:00"
+                class="w-full mt-1 rounded-lg border border-slate-300 px-3 py-2" />
+            </div>
+            <div>
+              <label class="font-bold text-slate-700">Jam Selesai</label>
+              <input type="time" id="calJamSelesai" value="12:00"
+                class="w-full mt-1 rounded-lg border border-slate-300 px-3 py-2" />
+            </div>
+          </div>
+          <div>
+            <label class="font-bold text-slate-700">Lokasi Kegiatan</label>
+            <input type="text" id="calLocation" value="Kantor Desa Puspahiang"
+              class="w-full mt-1 rounded-lg border border-slate-300 px-3 py-2" />
+          </div>
+          <div>
+            <label class="font-bold text-slate-700">Keterangan / Catatan</label>
+            <textarea id="calDesc" rows="2" placeholder="Detail agenda untuk peserta lelang..."
+              class="w-full mt-1 rounded-lg border border-slate-300 px-3 py-2"></textarea>
+          </div>
+          <button type="submit" id="btnSimpanAgendaCal"
+            class="w-full py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold cursor-pointer">
+            <i class="fa-regular fa-calendar-plus mr-1"></i> Simpan ke Google Calendar
+          </button>
+        </form>
+      </div>
+
+      <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-extrabold text-base text-slate-900">Agenda Aktif di Google Calendar</h3>
+          <span class="text-xs font-semibold text-sky-700" id="adminCalNameBadge">Jadwal Lelang Kebun Manggis Puspahiang</span>
+        </div>
+        <div id="adminCalendarList" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <!-- TAB 4: MANAJEMEN AKUN & PENGATURAN SISTEM LEMBAGA -->
     <div id="tabUsers" class="hidden space-y-8">
-      <!-- Bagian A: Pengaturan Identitas Aplikasi, Lembaga, Logo, Harga Acuan, SK & Musim Panen -->
       <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-5 border-b border-slate-200">
           <div>
             <h3 class="font-extrabold text-base text-slate-900">Pengaturan Identitas Aplikasi & Lembaga (AppConfig)</h3>
-            <p class="text-xs text-slate-500">Parameter di bawah ini tersimpan di sheet <code>AppConfig</code> (tidak tampil sebagai objek di Katalog Lot Lelang).</p>
+            <p class="text-xs text-slate-500">Parameter di bawah ini tersimpan di sheet <code>AppConfig</code> (terpisah dari Katalog Lot Lelang).</p>
           </div>
           <span class="px-3 py-1 rounded-full bg-teal-50 text-teal-800 text-xs font-bold border border-teal-200">Sinkron ke Portal Publik & PDF</span>
         </div>
@@ -484,7 +577,6 @@
               class="w-full mt-1 rounded-lg border border-slate-300 px-3 py-2" />
           </div>
 
-          <!-- Upload Logo Lembaga -->
           <div class="md:col-span-2 lg:col-span-3 p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-center gap-3">
               <img id="cfgLogoPreview" src="" alt="Logo Lembaga" class="hidden w-12 h-12 rounded-xl object-cover border border-slate-300 bg-white" />
@@ -506,7 +598,6 @@
         </form>
       </div>
 
-      <!-- Bagian B: Manajemen Akun Panitia -->
       <div id="superadminUserBox" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
           <h3 class="font-extrabold text-base text-slate-900 mb-4">Tambah Akun Panitia Baru</h3>
@@ -645,7 +736,7 @@
   </div>
 
   <!-- ====================================================================== -->
-  <!-- MODAL 2: FORMULIR PENDAFTARAN & PENAWARAN + TOMBOL CETAK TANDA TERIMA  -->
+  <!-- MODAL 2: FORMULIR PENDAFTARAN & PENAWARAN + CETAK TANDA TERIMA         -->
   <!-- ====================================================================== -->
   <div id="modalDaftarLelang" class="hidden fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4"
     onclick="if(event.target === this) tutupModalDaftarLelang()">
@@ -719,6 +810,37 @@
   </div>
 
   <!-- ====================================================================== -->
+  <!-- MODAL 3: GALERI LIGHTBOX MULTI-FOTO LOKASI KEBUN                       -->
+  <!-- ====================================================================== -->
+  <div id="modalGaleriFoto" class="hidden fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4"
+    onclick="if(event.target === this) tutupModalGaleri()">
+    <div class="bg-slate-950 text-white w-full max-w-3xl rounded-2xl shadow-2xl border border-slate-800 overflow-hidden">
+      <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h3 id="galeriJudul" class="font-extrabold text-sm sm:text-base">Galeri Foto Kebun</h3>
+          <p id="galeriSubjudul" class="text-[11px] text-slate-400">Foto 1 dari 1</p>
+        </div>
+        <button type="button" onclick="tutupModalGaleri()"
+          class="w-8 h-8 rounded-full hover:bg-slate-800 text-slate-300 flex items-center justify-center cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="relative bg-black flex items-center justify-center h-80 sm:h-[420px]">
+        <img id="galeriMainImg" src="" alt="Foto Kebun" class="max-h-full max-w-full object-contain" />
+        <button type="button" onclick="geserGaleri(-1)"
+          class="absolute left-3 w-10 h-10 rounded-full bg-slate-900/80 hover:bg-amber-500 hover:text-slate-950 text-white flex items-center justify-center cursor-pointer">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button type="button" onclick="geserGaleri(1)"
+          class="absolute right-3 w-10 h-10 rounded-full bg-slate-900/80 hover:bg-amber-500 hover:text-slate-950 text-white flex items-center justify-center cursor-pointer">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+      <div id="galeriThumbnails" class="p-3 bg-slate-900 flex items-center gap-2 overflow-x-auto"></div>
+    </div>
+  </div>
+
+  <!-- ====================================================================== -->
   <!-- SCRIPT UTAMA APLIKASI                                                  -->
   <!-- ====================================================================== -->
   <script>
@@ -741,10 +863,14 @@
     let STATE = {
       lots: [],
       config: {},
+      kalender: { events: [] },
       user: null,
       token: localStorage.getItem(TOKEN_STORAGE_KEY) || '',
       gasUrl: ambilGasUrlAktif()
     };
+
+    let CURRENT_LOT_PHOTOS = [];
+    let GALLERY_STATE = { photos: [], index: 0, title: '' };
 
     function panggilBackend(action, payload = {}, token = '') {
       return new Promise((resolve, reject) => {
@@ -782,7 +908,6 @@
       return 'Rp ' + Number(angka || 0).toLocaleString('id-ID');
     }
 
-    // Kompresi gambar di browser menggunakan Canvas sebelum dikirim ke Google Drive
     function kompresGambarBase64(file, maxWidth = 1100, quality = 0.82) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -969,7 +1094,7 @@
     }
 
     // ========================================================================
-    // RENDER IDENTITAS LEMBAGA & KATALOG LOT BERSIH (DENGAN FOTO)
+    // RENDER IDENTITAS, KATALOG MULTI-FOTO & KALENDER GOOGLE PUBLIK
     // ========================================================================
     function terapkanIdentitasKePublik(cfg) {
       if (!cfg) return;
@@ -994,16 +1119,16 @@
         if (res && res.ok) {
           STATE.lots = res.lots || [];
           STATE.config = res.config || {};
+          STATE.kalender = res.kalender || { events: [] };
           terapkanIdentitasKePublik(STATE.config);
           renderBlokSummary();
           renderKatalogLot();
+          renderKalenderPublik();
           isiDropdownLotModal();
         }
       } catch (err) {
         document.getElementById('lotCardsGrid').innerHTML =
-          `<div class="col-span-full bg-amber-50 border border-amber-200 text-amber-900 p-5 rounded-2xl text-xs">
-            ${err.message}
-          </div>`;
+          `<div class="col-span-full bg-amber-50 border border-amber-200 text-amber-900 p-5 rounded-2xl text-xs">${err.message}</div>`;
       }
     }
 
@@ -1070,13 +1195,16 @@
 
       grid.innerHTML = filtered.map(l => {
         const isDibuka = l.statusLelang.toLowerCase() === 'dibuka';
+        const photos = Array.isArray(l.fotoList) ? l.fotoList : (l.fotoUrl ? [l.fotoUrl] : []);
+        const hasPhotos = photos.length > 0;
+
         return `
           <div class="bg-white rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition flex flex-col justify-between overflow-hidden">
             <div>
-              <!-- Thumbnail Foto Kebun Manggis -->
-              <div class="h-44 bg-slate-800 relative overflow-hidden">
-                ${l.fotoUrl
-                  ? `<img src="${l.fotoUrl}" alt="${l.namaKebun}" class="w-full h-full object-cover" />`
+              <div onclick="${hasPhotos ? `bukaGaleriFotoLot('${l.kodeLot}', 0)` : ''}"
+                class="h-48 bg-slate-800 relative overflow-hidden ${hasPhotos ? 'cursor-pointer group' : ''}">
+                ${hasPhotos
+                  ? `<img src="${photos[0]}" alt="${l.namaKebun}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />`
                   : `<div class="w-full h-full hero-gradient flex flex-col items-center justify-center text-slate-300/70">
                        <i class="fa-solid fa-seedling text-3xl mb-1 text-emerald-400"></i>
                        <span class="text-[11px] font-semibold">Dokumentasi Blok ${l.blokWilayah}</span>
@@ -1090,6 +1218,13 @@
                     ${l.statusLelang}
                   </span>
                 </div>
+                ${hasPhotos ? `
+                  <div class="absolute bottom-3 right-3">
+                    <span class="px-2.5 py-1 rounded-lg bg-slate-950/80 text-white text-[11px] font-bold inline-flex items-center gap-1.5">
+                      <i class="fa-solid fa-images text-amber-400"></i> ${photos.length} Foto
+                    </span>
+                  </div>
+                ` : ''}
               </div>
 
               <div class="p-5">
@@ -1118,8 +1253,13 @@
               </div>
             </div>
 
-            <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-              <span class="text-[11px] text-slate-500"><i class="fa-regular fa-clock mr-1"></i>Tutup: ${l.batasWaktu || '-'}</span>
+            <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+              ${hasPhotos && photos.length > 1
+                ? `<button type="button" onclick="bukaGaleriFotoLot('${l.kodeLot}', 0)" class="text-xs font-bold text-teal-700 hover:underline cursor-pointer">
+                     <i class="fa-solid fa-images mr-1"></i>Lihat ${photos.length} Foto
+                   </button>`
+                : `<span class="text-[11px] text-slate-500"><i class="fa-regular fa-clock mr-1"></i>${l.batasWaktu || '-'}</span>`
+              }
               <button type="button" ${!isDibuka ? 'disabled' : ''} onclick="bukaModalDaftarLelang('${l.kodeLot}')"
                 class="px-4 py-2 rounded-xl text-xs font-extrabold transition ${isDibuka ? 'gold-gradient text-slate-950 cursor-pointer shadow-xs' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}">
                 ${isDibuka ? 'Tawar Lot Ini' : 'Lelang Ditutup'}
@@ -1128,6 +1268,86 @@
           </div>
         `;
       }).join('');
+    }
+
+    function renderKalenderPublik() {
+      const grid = document.getElementById('publicCalendarGrid');
+      const titleEl = document.getElementById('publicCalendarTitle');
+      const cal = STATE.kalender || { events: [] };
+      if (cal.calendarName) titleEl.textContent = cal.calendarName;
+
+      if (!cal.events || !cal.events.length) {
+        grid.innerHTML = `<div class="col-span-full text-center py-8 text-xs text-slate-500">Belum ada agenda terjadwal pada Google Calendar saat ini.</div>`;
+        return;
+      }
+
+      grid.innerHTML = cal.events.map(ev => `
+        <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 flex flex-col justify-between gap-4 hover:bg-white hover:shadow-sm transition">
+          <div class="flex items-start gap-3.5">
+            <div class="w-14 shrink-0 rounded-xl bg-[#092635] text-white text-center py-2 shadow-xs">
+              <div class="text-[10px] font-bold tracking-wider text-amber-400">${ev.bulanSingkat}</div>
+              <div class="text-xl font-extrabold leading-tight">${ev.tanggalHari}</div>
+            </div>
+            <div>
+              <h3 class="font-extrabold text-sm text-slate-900 leading-snug">${ev.title}</h3>
+              <div class="text-[11px] text-teal-700 font-semibold mt-1">
+                <i class="fa-regular fa-clock mr-1"></i>${ev.jamMulai} – ${ev.jamSelesai} WIB
+              </div>
+              <div class="text-[11px] text-slate-500 mt-0.5">
+                <i class="fa-solid fa-location-dot text-rose-500 mr-1"></i>${ev.location}
+              </div>
+              ${ev.description ? `<p class="text-xs text-slate-600 mt-2 line-clamp-2">${ev.description}</p>` : ''}
+            </div>
+          </div>
+          <div class="pt-2 border-t border-slate-200/80 flex justify-end">
+            <a href="${ev.gcalAddUrl}" target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-sky-200 hover:bg-sky-50 text-sky-700 text-[11px] font-bold transition">
+              <i class="fa-regular fa-calendar-plus"></i> Simpan ke Google Calendar
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ========================================================================
+    // LIGHTBOX GALERI MULTI-FOTO
+    // ========================================================================
+    function bukaGaleriFotoLot(kodeLot, startIndex = 0) {
+      const lot = STATE.lots.find(l => l.kodeLot === kodeLot);
+      if (!lot) return;
+      const photos = Array.isArray(lot.fotoList) ? lot.fotoList : (lot.fotoUrl ? [lot.fotoUrl] : []);
+      if (!photos.length) return;
+
+      GALLERY_STATE = {
+        photos: photos,
+        index: startIndex,
+        title: `${lot.kodeLot} — ${lot.namaKebun}`
+      };
+      renderGaleriModal();
+      document.getElementById('modalGaleriFoto').classList.remove('hidden');
+    }
+
+    function tutupModalGaleri() {
+      document.getElementById('modalGaleriFoto').classList.add('hidden');
+    }
+
+    function geserGaleri(delta) {
+      const len = GALLERY_STATE.photos.length;
+      if (!len) return;
+      GALLERY_STATE.index = (GALLERY_STATE.index + delta + len) % len;
+      renderGaleriModal();
+    }
+
+    function renderGaleriModal() {
+      const { photos, index, title } = GALLERY_STATE;
+      document.getElementById('galeriJudul').textContent = title;
+      document.getElementById('galeriSubjudul').textContent = `Foto ${index + 1} dari ${photos.length}`;
+      document.getElementById('galeriMainImg').src = photos[index];
+
+      document.getElementById('galeriThumbnails').innerHTML = photos.map((url, idx) => `
+        <img src="${url}" onclick="GALLERY_STATE.index=${idx};renderGaleriModal();"
+          class="w-16 h-12 object-cover rounded-lg cursor-pointer border-2 transition ${idx === index ? 'border-amber-400 opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}" />
+      `).join('');
     }
 
     // ========================================================================
@@ -1293,7 +1513,7 @@
     }
 
     // ========================================================================
-    // DASHBOARD PANITIA, UPLOAD FOTO & PENGATURAN LEMBAGA
+    // DASHBOARD PANITIA: MULTI-PHOTO UPLOAD, GOOGLE CALENDAR & PENGATURAN
     // ========================================================================
     function tampilkanTampilanPublik() {
       document.getElementById('publicPortalView').classList.remove('hidden');
@@ -1321,6 +1541,8 @@
         STATE.user = res.user;
         STATE.lots = res.lots || [];
         STATE.config = res.config || {};
+        STATE.kalender = res.kalender || { events: [] };
+
         document.getElementById('dashRoleBadge').textContent = res.user.role.toUpperCase();
         document.getElementById('dashWelcomeTitle').textContent = 'Selamat Datang, ' + res.user.nama;
 
@@ -1333,7 +1555,7 @@
           btnSheet.classList.remove('hidden');
         }
 
-        // Isi Form Pengaturan Lembaga (AppConfig)
+        // Isi Form Pengaturan Lembaga
         document.getElementById('cfgNamaAplikasi').value = STATE.config.nama_aplikasi || '';
         document.getElementById('cfgNamaLembaga').value = STATE.config.nama_lembaga || '';
         document.getElementById('cfgTagline').value = STATE.config.tagline || '';
@@ -1363,7 +1585,7 @@
         const sumTertinggi = STATE.lots.reduce((acc, l) => acc + Number(l.penawaranTertinggi || 0), 0);
         document.getElementById('statTotalNilai').textContent = formatRupiah(sumTertinggi);
 
-        // Tabel Penawaran + Tombol Cetak Tanda Terima
+        // Tabel Penawaran
         const tbodyBid = document.getElementById('adminBidsTableBody');
         tbodyBid.innerHTML = bids.length ? bids.map(b => `
           <tr class="hover:bg-slate-50">
@@ -1399,33 +1621,42 @@
           </tr>
         `).join('') : '<tr><td colspan="6" class="px-4 py-8 text-center text-slate-400">Belum ada penawaran masuk.</td></tr>';
 
-        // Tabel Lot Bersih (Dengan Foto & Tombol Edit/Hapus)
-        document.getElementById('adminLotsTableBody').innerHTML = STATE.lots.map(l => `
-          <tr class="hover:bg-slate-50">
-            <td class="px-4 py-3">
-              ${l.fotoUrl
-                ? `<img src="${l.fotoUrl}" alt="${l.kodeLot}" class="w-14 h-10 object-cover rounded-lg border border-slate-200" />`
-                : `<div class="w-14 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400"><i class="fa-solid fa-image"></i></div>`
-              }
-            </td>
-            <td class="px-4 py-3">
-              <div class="font-bold text-slate-900">${l.kodeLot}</div>
-              <div class="text-slate-600">${l.namaKebun} (Blok ${l.blokWilayah})</div>
-            </td>
-            <td class="px-4 py-3 text-slate-600">${l.jumlahPohon} Pohon &bull; ${l.estimasiTonaseKg} Kg</td>
-            <td class="px-4 py-3">
-              <div class="text-slate-500">Limit: ${formatRupiah(l.nilaiLimit)}</div>
-              <div class="font-bold text-teal-700">Tertinggi: ${formatRupiah(l.penawaranTertinggi)}</div>
-            </td>
-            <td class="px-4 py-3 font-bold">${l.statusLelang}</td>
-            <td class="px-4 py-3 text-right space-x-1 whitespace-nowrap">
-              <button type="button" onclick='isiFormEditLot(${JSON.stringify(l)})'
-                class="px-2.5 py-1 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold cursor-pointer">Edit</button>
-              <button type="button" onclick="aksiHapusLot('${l.kodeLot}')"
-                class="px-2.5 py-1 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold cursor-pointer">Hapus</button>
-            </td>
-          </tr>
-        `).join('');
+        // Tabel Lot Bersih dengan Info Jumlah Foto
+        document.getElementById('adminLotsTableBody').innerHTML = STATE.lots.map(l => {
+          const photos = Array.isArray(l.fotoList) ? l.fotoList : (l.fotoUrl ? [l.fotoUrl] : []);
+          return `
+            <tr class="hover:bg-slate-50">
+              <td class="px-4 py-3">
+                ${photos.length
+                  ? `<div class="relative w-16 h-11">
+                       <img src="${photos[0]}" alt="${l.kodeLot}" class="w-16 h-11 object-cover rounded-lg border border-slate-200" />
+                       <span class="absolute -bottom-1 -right-1 px-1.5 py-0.2 rounded bg-slate-900 text-white text-[10px] font-bold">${photos.length}</span>
+                     </div>`
+                  : `<div class="w-16 h-11 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 text-[10px]">0 Foto</div>`
+                }
+              </td>
+              <td class="px-4 py-3">
+                <div class="font-bold text-slate-900">${l.kodeLot}</div>
+                <div class="text-slate-600">${l.namaKebun} (Blok ${l.blokWilayah})</div>
+              </td>
+              <td class="px-4 py-3 text-slate-600">${l.jumlahPohon} Pohon &bull; ${l.estimasiTonaseKg} Kg</td>
+              <td class="px-4 py-3">
+                <div class="text-slate-500">Limit: ${formatRupiah(l.nilaiLimit)}</div>
+                <div class="font-bold text-teal-700">Tertinggi: ${formatRupiah(l.penawaranTertinggi)}</div>
+              </td>
+              <td class="px-4 py-3 font-bold">${l.statusLelang}</td>
+              <td class="px-4 py-3 text-right space-x-1 whitespace-nowrap">
+                <button type="button" onclick='isiFormEditLot(${JSON.stringify(l)})'
+                  class="px-2.5 py-1 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold cursor-pointer">Edit</button>
+                <button type="button" onclick="aksiHapusLot('${l.kodeLot}')"
+                  class="px-2.5 py-1 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold cursor-pointer">Hapus</button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        // Render Daftar Agenda Google Calendar di Tab Kalender
+        renderAdminCalendarList();
 
         // Tabel Users
         if (res.users && res.users.length) {
@@ -1445,8 +1676,8 @@
     }
 
     function switchAdminTab(tabId) {
-      ['tabBids', 'tabLots', 'tabUsers'].forEach(id => document.getElementById(id).classList.add('hidden'));
-      ['btnTabBids', 'btnTabLots', 'btnTabUsers'].forEach(id => {
+      ['tabBids', 'tabLots', 'tabCalendar', 'tabUsers'].forEach(id => document.getElementById(id).classList.add('hidden'));
+      ['btnTabBids', 'btnTabLots', 'btnTabCalendar', 'btnTabUsers'].forEach(id => {
         const b = document.getElementById(id);
         b.classList.remove('bg-[#092635]', 'text-white');
         b.classList.add('bg-white', 'text-slate-700');
@@ -1457,41 +1688,221 @@
       activeBtn.classList.add('bg-[#092635]', 'text-white');
     }
 
-    // Upload Foto Lokasi Kebun ke Google Drive
-    async function handleUploadFotoLot(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const statusEl = document.getElementById('lotFotoStatus');
-      const previewEl = document.getElementById('lotFotoPreview');
-      const btnSimpan = document.getElementById('btnSimpanLot');
+    // ========================================================================
+    // MULTI-UPLOAD FOTO KEBUN (BANYAK FOTO PER LOKASI)
+    // ========================================================================
+    function renderPreviewFotoLotAdmin() {
+      const grid = document.getElementById('lotFotoPreviewGrid');
+      const counter = document.getElementById('lotFotoCounter');
+      counter.textContent = `${CURRENT_LOT_PHOTOS.length} Foto`;
 
-      statusEl.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-teal-700 mr-1"></i> Mengompres & mengunggah foto ke Google Drive...';
+      if (!CURRENT_LOT_PHOTOS.length) {
+        grid.innerHTML = '';
+        return;
+      }
+
+      grid.innerHTML = CURRENT_LOT_PHOTOS.map((url, idx) => `
+        <div class="relative group rounded-lg overflow-hidden border border-slate-300 bg-white h-20">
+          <img src="${url}" alt="Foto ${idx + 1}" class="w-full h-full object-cover" />
+          ${idx === 0
+            ? `<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-emerald-600 text-white text-[9px] font-bold">Sampul</span>`
+            : `<button type="button" onclick="jadikanSampulFotoLot(${idx})" title="Jadikan Foto Sampul"
+                 class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-slate-900/80 text-white text-[9px] font-bold opacity-0 group-hover:opacity-100 transition cursor-pointer">Sampul</button>`
+          }
+          <button type="button" onclick="hapusFotoDariList(${idx})" title="Hapus Foto Ini"
+            class="absolute top-1 right-1 w-5 h-5 rounded-full bg-rose-600 text-white text-[10px] font-bold flex items-center justify-center cursor-pointer">
+            &times;
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function jadikanSampulFotoLot(idx) {
+      const selected = CURRENT_LOT_PHOTOS.splice(idx, 1)[0];
+      CURRENT_LOT_PHOTOS.unshift(selected);
+      renderPreviewFotoLotAdmin();
+    }
+
+    function hapusFotoDariList(idx) {
+      CURRENT_LOT_PHOTOS.splice(idx, 1);
+      renderPreviewFotoLotAdmin();
+    }
+
+    async function handleUploadFotoLot(e) {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+
+      const statusEl = document.getElementById('lotFotoStatus');
+      const btnSimpan = document.getElementById('btnSimpanLot');
       btnSimpan.disabled = true;
 
-      try {
-        const base64 = await kompresGambarBase64(file, 1100, 0.82);
-        const res = await panggilBackend('uploadGambarDrive', {
-          base64: base64,
-          mimeType: 'image/jpeg',
-          fileName: 'kebun_' + (document.getElementById('lotKode').value || Date.now()) + '.jpg'
-        }, STATE.token);
+      let suksesCount = 0;
+      for (let i = 0; i < files.length; i++) {
+        statusEl.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-teal-700 mr-1"></i> Mengunggah foto ${i + 1} dari ${files.length} ke Google Drive...`;
+        try {
+          const base64 = await kompresGambarBase64(files[i], 1100, 0.82);
+          const res = await panggilBackend('uploadGambarDrive', {
+            base64: base64,
+            mimeType: 'image/jpeg',
+            fileName: `kebun_${document.getElementById('lotKode').value || 'LOT'}_${Date.now()}_${i + 1}.jpg`
+          }, STATE.token);
 
-        if (res && res.ok) {
-          document.getElementById('lotFotoUrl').value = res.imageUrl;
-          previewEl.src = res.imageUrl;
-          previewEl.classList.remove('hidden');
-          statusEl.innerHTML = '<span class="text-emerald-700 font-bold"><i class="fa-solid fa-circle-check mr-1"></i> Foto terunggah ke Drive! Klik Simpan Lot untuk menyimpan ke database.</span>';
-        } else {
-          statusEl.innerHTML = `<span class="text-rose-600 font-bold">${(res && res.message) || 'Gagal upload foto.'}</span>`;
+          if (res && res.ok && res.imageUrl) {
+            CURRENT_LOT_PHOTOS.push(res.imageUrl);
+            suksesCount++;
+            renderPreviewFotoLotAdmin();
+          } else {
+            statusEl.innerHTML = `<span class="text-rose-600 font-bold">${(res && res.message) || 'Gagal mengunggah foto.'}</span>`;
+            btnSimpan.disabled = false;
+            e.target.value = '';
+            return;
+          }
+        } catch (err) {
+          statusEl.innerHTML = `<span class="text-rose-600 font-bold">Gagal mengunggah foto: ${err.message}</span>`;
+          btnSimpan.disabled = false;
+          e.target.value = '';
+          return;
         }
-      } catch (err) {
-        statusEl.innerHTML = `<span class="text-rose-600 font-bold">Error upload: ${err.message}</span>`;
-      } finally {
-        btnSimpan.disabled = false;
+      }
+
+      statusEl.innerHTML = `<span class="text-emerald-700 font-bold"><i class="fa-solid fa-circle-check mr-1"></i> ${suksesCount} foto berhasil diunggah! Klik tombol "Simpan Lot & Semua Foto" di bawah.</span>`;
+      btnSimpan.disabled = false;
+      e.target.value = '';
+    }
+
+    function resetFormLotBaru() {
+      document.getElementById('formLotKebun').reset();
+      CURRENT_LOT_PHOTOS = [];
+      renderPreviewFotoLotAdmin();
+      document.getElementById('lotFotoStatus').textContent = 'Bisa pilih beberapa foto sekaligus atau tambahkan bertahap.';
+    }
+
+    function isiFormEditLot(lot) {
+      document.getElementById('lotKode').value = lot.kodeLot;
+      document.getElementById('lotNama').value = lot.namaKebun;
+      document.getElementById('lotBlok').value = lot.blokWilayah;
+      document.getElementById('lotStatus').value = lot.statusLelang;
+      document.getElementById('lotLuas').value = lot.luasM2;
+      document.getElementById('lotPohon').value = lot.jumlahPohon;
+      document.getElementById('lotTonase').value = lot.estimasiTonaseKg;
+      document.getElementById('lotLimit').value = lot.nilaiLimit;
+      document.getElementById('lotKet').value = lot.keterangan;
+
+      CURRENT_LOT_PHOTOS = Array.isArray(lot.fotoList) ? [...lot.fotoList] : (lot.fotoUrl ? [lot.fotoUrl] : []);
+      renderPreviewFotoLotAdmin();
+      document.getElementById('lotFotoStatus').textContent = `${CURRENT_LOT_PHOTOS.length} foto tersimpan. Anda dapat menambah foto baru atau menghapus foto lama.`;
+    }
+
+    async function submitFormLot(e) {
+      e.preventDefault();
+      const payload = {
+        kodeLot: document.getElementById('lotKode').value,
+        namaKebun: document.getElementById('lotNama').value,
+        blokWilayah: document.getElementById('lotBlok').value,
+        statusLelang: document.getElementById('lotStatus').value,
+        luasM2: document.getElementById('lotLuas').value,
+        jumlahPohon: document.getElementById('lotPohon').value,
+        estimasiTonaseKg: document.getElementById('lotTonase').value,
+        nilaiLimit: document.getElementById('lotLimit').value,
+        keterangan: document.getElementById('lotKet').value,
+        fotoList: CURRENT_LOT_PHOTOS
+      };
+      const res = await panggilBackend('simpanLotKebun', payload, STATE.token);
+      alert(res.message);
+      if (res.ok) {
+        resetFormLotBaru();
+        await muatDashboardAdmin();
+        await muatDataPublik();
       }
     }
 
-    // Upload Logo Lembaga ke Google Drive
+    async function aksiHapusLot(kodeLot) {
+      if (!confirm(`Hapus permanen ${kodeLot} dari database Spreadsheet?`)) return;
+      const res = await panggilBackend('hapusLotKebun', { kodeLot }, STATE.token);
+      alert(res.message);
+      if (res.ok) {
+        await muatDashboardAdmin();
+        await muatDataPublik();
+      }
+    }
+
+    // ========================================================================
+    // KELOLA AGENDA GOOGLE CALENDAR (PANITIA)
+    // ========================================================================
+    function renderAdminCalendarList() {
+      const box = document.getElementById('adminCalendarList');
+      const cal = STATE.kalender || { events: [] };
+      if (cal.calendarName) {
+        document.getElementById('adminCalNameBadge').textContent = cal.calendarName;
+      }
+
+      if (cal.error) {
+        box.innerHTML = `<div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-semibold">Izin Google Calendar belum aktif pada versi deployment ini: ${cal.error}. Silakan Deploy versi baru di Editor GAS.</div>`;
+        return;
+      }
+
+      if (!cal.events || !cal.events.length) {
+        box.innerHTML = `<div class="text-xs text-slate-500 py-6 text-center">Belum ada agenda di Google Calendar. Tambahkan melalui form di samping.</div>`;
+        return;
+      }
+
+      box.innerHTML = cal.events.map(ev => `
+        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div>
+            <div class="font-extrabold text-slate-900">${ev.title}</div>
+            <div class="text-teal-700 font-semibold mt-0.5">${ev.tanggalLengkap} &bull; ${ev.jamMulai}–${ev.jamSelesai} WIB</div>
+            <div class="text-slate-500 mt-0.5"><i class="fa-solid fa-location-dot text-rose-500 mr-1"></i>${ev.location}</div>
+          </div>
+          <button type="button" onclick="hapusAgendaCal('${ev.id}')"
+            class="px-3 py-1.5 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold self-start sm:self-center cursor-pointer">
+            Hapus
+          </button>
+        </div>
+      `).join('');
+    }
+
+    async function submitAgendaKalender(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSimpanAgendaCal');
+      btn.disabled = true;
+      btn.textContent = 'Menyimpan ke Google Calendar...';
+
+      const payload = {
+        title: document.getElementById('calTitle').value,
+        tanggal: document.getElementById('calTanggal').value,
+        jamMulai: document.getElementById('calJamMulai').value,
+        jamSelesai: document.getElementById('calJamSelesai').value,
+        location: document.getElementById('calLocation').value,
+        description: document.getElementById('calDesc').value
+      };
+
+      try {
+        const res = await panggilBackend('tambahAgendaKalender', payload, STATE.token);
+        alert(res.message);
+        if (res.ok) {
+          e.target.reset();
+          await muatDashboardAdmin();
+          await muatDataPublik();
+        }
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-regular fa-calendar-plus mr-1"></i> Simpan ke Google Calendar';
+      }
+    }
+
+    async function hapusAgendaCal(eventId) {
+      if (!confirm('Hapus agenda ini dari Google Calendar?')) return;
+      const res = await panggilBackend('hapusAgendaKalender', { eventId }, STATE.token);
+      alert(res.message);
+      if (res.ok) {
+        await muatDashboardAdmin();
+        await muatDataPublik();
+      }
+    }
+
+    // ========================================================================
+    // UPLOAD LOGO & PENGATURAN LEMBAGA
+    // ========================================================================
     async function handleUploadLogoLembaga(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -1554,61 +1965,6 @@
       const res = await panggilBackend('verifikasiBid', { idBid, status }, STATE.token);
       alert(res.message);
       if (res.ok) await muatDashboardAdmin();
-    }
-
-    function isiFormEditLot(lot) {
-      document.getElementById('lotKode').value = lot.kodeLot;
-      document.getElementById('lotNama').value = lot.namaKebun;
-      document.getElementById('lotBlok').value = lot.blokWilayah;
-      document.getElementById('lotStatus').value = lot.statusLelang;
-      document.getElementById('lotLuas').value = lot.luasM2;
-      document.getElementById('lotPohon').value = lot.jumlahPohon;
-      document.getElementById('lotTonase').value = lot.estimasiTonaseKg;
-      document.getElementById('lotLimit').value = lot.nilaiLimit;
-      document.getElementById('lotKet').value = lot.keterangan;
-      document.getElementById('lotFotoUrl').value = lot.fotoUrl || '';
-      const previewEl = document.getElementById('lotFotoPreview');
-      if (lot.fotoUrl) {
-        previewEl.src = lot.fotoUrl;
-        previewEl.classList.remove('hidden');
-      } else {
-        previewEl.classList.add('hidden');
-      }
-    }
-
-    async function submitFormLot(e) {
-      e.preventDefault();
-      const payload = {
-        kodeLot: document.getElementById('lotKode').value,
-        namaKebun: document.getElementById('lotNama').value,
-        blokWilayah: document.getElementById('lotBlok').value,
-        statusLelang: document.getElementById('lotStatus').value,
-        luasM2: document.getElementById('lotLuas').value,
-        jumlahPohon: document.getElementById('lotPohon').value,
-        estimasiTonaseKg: document.getElementById('lotTonase').value,
-        nilaiLimit: document.getElementById('lotLimit').value,
-        keterangan: document.getElementById('lotKet').value,
-        fotoUrl: document.getElementById('lotFotoUrl').value
-      };
-      const res = await panggilBackend('simpanLotKebun', payload, STATE.token);
-      alert(res.message);
-      if (res.ok) {
-        document.getElementById('formLotKebun').reset();
-        document.getElementById('lotFotoUrl').value = '';
-        document.getElementById('lotFotoPreview').classList.add('hidden');
-        await muatDashboardAdmin();
-        await muatDataPublik();
-      }
-    }
-
-    async function aksiHapusLot(kodeLot) {
-      if (!confirm(`Hapus permanen ${kodeLot} dari database Spreadsheet?`)) return;
-      const res = await panggilBackend('hapusLotKebun', { kodeLot }, STATE.token);
-      alert(res.message);
-      if (res.ok) {
-        await muatDashboardAdmin();
-        await muatDataPublik();
-      }
     }
 
     async function submitTambahPanitia(e) {
